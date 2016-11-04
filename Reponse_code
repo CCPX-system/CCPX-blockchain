@@ -1,0 +1,12 @@
+   Code                          Description
+ + 100                       record successfully
+ + 2××        request successfully  but there are errors when recording
+ + 200                  have no permission to record
+ + 201                 validation between nodes fails
+ + 300                      enquiry successfully
+ + 4××        request successfully  but there are errors when querying
+ + 400                   have no permission to enquiry
+ + 401                           no records
+ + 5××                     request unsuccessfully
+ + 500                         parameter error
+ + 501                     conflicts between requests
