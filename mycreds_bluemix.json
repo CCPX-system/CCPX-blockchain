@@ -1,0 +1,231 @@
+{
+  "peers": [
+    {
+      "discovery_host": "de885644586e43258d0ff732d4d4557a-vp0.us.blockchain.ibm.com",
+      "discovery_port": 30001,
+      "api_host": "de885644586e43258d0ff732d4d4557a-vp0.us.blockchain.ibm.com",
+      "api_port_tls": 5001,
+      "api_port": 5001,
+      "event_host": "de885644586e43258d0ff732d4d4557a-vp0.us.blockchain.ibm.com",
+      "event_port": 31001,
+      "type": "peer",
+      "network_id": "de885644586e43258d0ff732d4d4557a",
+      "container_id": "977f680e5f239a312e470ac5f502b635afe70251d904024063123ea87d3fc76b",
+      "id": "de885644586e43258d0ff732d4d4557a-vp0",
+      "api_url": "http://de885644586e43258d0ff732d4d4557a-vp0.us.blockchain.ibm.com:5001"
+    },
+    {
+      "discovery_host": "de885644586e43258d0ff732d4d4557a-vp3.us.blockchain.ibm.com",
+      "discovery_port": 30001,
+      "api_host": "de885644586e43258d0ff732d4d4557a-vp3.us.blockchain.ibm.com",
+      "api_port_tls": 5001,
+      "api_port": 5001,
+      "event_host": "de885644586e43258d0ff732d4d4557a-vp3.us.blockchain.ibm.com",
+      "event_port": 31001,
+      "type": "peer",
+      "network_id": "de885644586e43258d0ff732d4d4557a",
+      "container_id": "730cdd15caaff64b957cd8a211215669c2e8f74f4908cd7e27cf30f7a0186a3b",
+      "id": "de885644586e43258d0ff732d4d4557a-vp3",
+      "api_url": "http://de885644586e43258d0ff732d4d4557a-vp3.us.blockchain.ibm.com:5001"
+    },
+    {
+      "discovery_host": "de885644586e43258d0ff732d4d4557a-vp2.us.blockchain.ibm.com",
+      "discovery_port": 30001,
+      "api_host": "de885644586e43258d0ff732d4d4557a-vp2.us.blockchain.ibm.com",
+      "api_port_tls": 5001,
+      "api_port": 5001,
+      "event_host": "de885644586e43258d0ff732d4d4557a-vp2.us.blockchain.ibm.com",
+      "event_port": 31001,
+      "type": "peer",
+      "network_id": "de885644586e43258d0ff732d4d4557a",
+      "container_id": "8e4b51aaed06e540f279d729498ac34c0cb3e4ff6b3eaa324b18c639346c5958",
+      "id": "de885644586e43258d0ff732d4d4557a-vp2",
+      "api_url": "http://de885644586e43258d0ff732d4d4557a-vp2.us.blockchain.ibm.com:5001"
+    },
+    {
+      "discovery_host": "de885644586e43258d0ff732d4d4557a-vp1.us.blockchain.ibm.com",
+      "discovery_port": 30001,
+      "api_host": "de885644586e43258d0ff732d4d4557a-vp1.us.blockchain.ibm.com",
+      "api_port_tls": 5001,
+      "api_port": 5001,
+      "event_host": "de885644586e43258d0ff732d4d4557a-vp1.us.blockchain.ibm.com",
+      "event_port": 31001,
+      "type": "peer",
+      "network_id": "de885644586e43258d0ff732d4d4557a",
+      "container_id": "4b0d53719d854473cc40cadf5a722f1715f810f769d9337d0b4a1f888f8cea0b",
+      "id": "de885644586e43258d0ff732d4d4557a-vp1",
+      "api_url": "http://de885644586e43258d0ff732d4d4557a-vp1.us.blockchain.ibm.com:5001"
+    }
+  ],
+  "ca": {
+    "de885644586e43258d0ff732d4d4557a-ca": {
+      "url": "de885644586e43258d0ff732d4d4557a-ca.us.blockchain.ibm.com:30001",
+      "discovery_host": "de885644586e43258d0ff732d4d4557a-ca.us.blockchain.ibm.com",
+      "discovery_port": 30001,
+      "api_host": "de885644586e43258d0ff732d4d4557a-ca.us.blockchain.ibm.com",
+      "api_port_tls": 30001,
+      "api_port": 30001,
+      "type": "ca",
+      "network_id": "de885644586e43258d0ff732d4d4557a",
+      "container_id": "6ef461da9f8d0a59002e6fb1dc14b46a44e46812287f453f96ca437337a4c47a"
+    }
+  },
+  "users": [
+    {
+      "enrollId": "admin",
+      "enrollSecret": "6cfc5f8c13",
+      "affiliation": "group1",
+      "username": "admin",
+      "secret": "6cfc5f8c13"
+    },
+    {
+      "enrollId": "WebAppAdmin",
+      "enrollSecret": "fb2143780f",
+      "affiliation": "group1",
+      "username": "WebAppAdmin",
+      "secret": "fb2143780f"
+    },
+    {
+      "enrollId": "user_type1_0",
+      "enrollSecret": "211be70f72",
+      "affiliation": "group1",
+      "username": "user_type1_0",
+      "secret": "211be70f72"
+    },
+    {
+      "enrollId": "user_type1_1",
+      "enrollSecret": "a98b53f6d8",
+      "affiliation": "group1",
+      "username": "user_type1_1",
+      "secret": "a98b53f6d8"
+    },
+    {
+      "enrollId": "user_type1_2",
+      "enrollSecret": "7761636354",
+      "affiliation": "group1",
+      "username": "user_type1_2",
+      "secret": "7761636354"
+    },
+    {
+      "enrollId": "user_type1_3",
+      "enrollSecret": "cf83d50b07",
+      "affiliation": "group1",
+      "username": "user_type1_3",
+      "secret": "cf83d50b07"
+    },
+    {
+      "enrollId": "user_type1_4",
+      "enrollSecret": "c902efe66e",
+      "affiliation": "group1",
+      "username": "user_type1_4",
+      "secret": "c902efe66e"
+    },
+    {
+      "enrollId": "user_type2_0",
+      "enrollSecret": "dfd0390db7",
+      "affiliation": "group1",
+      "username": "user_type2_0",
+      "secret": "dfd0390db7"
+    },
+    {
+      "enrollId": "user_type2_1",
+      "enrollSecret": "9a629af4e5",
+      "affiliation": "group1",
+      "username": "user_type2_1",
+      "secret": "9a629af4e5"
+    },
+    {
+      "enrollId": "user_type2_2",
+      "enrollSecret": "42a25c9fea",
+      "affiliation": "group1",
+      "username": "user_type2_2",
+      "secret": "42a25c9fea"
+    },
+    {
+      "enrollId": "user_type2_3",
+      "enrollSecret": "272b1cb455",
+      "affiliation": "group1",
+      "username": "user_type2_3",
+      "secret": "272b1cb455"
+    },
+    {
+      "enrollId": "user_type2_4",
+      "enrollSecret": "44d12460c8",
+      "affiliation": "group1",
+      "username": "user_type2_4",
+      "secret": "44d12460c8"
+    },
+    {
+      "enrollId": "user_type4_0",
+      "enrollSecret": "7a4875f98b",
+      "affiliation": "group1",
+      "username": "user_type4_0",
+      "secret": "7a4875f98b"
+    },
+    {
+      "enrollId": "user_type4_1",
+      "enrollSecret": "fa765adc1f",
+      "affiliation": "group1",
+      "username": "user_type4_1",
+      "secret": "fa765adc1f"
+    },
+    {
+      "enrollId": "user_type4_2",
+      "enrollSecret": "1ce732c990",
+      "affiliation": "group1",
+      "username": "user_type4_2",
+      "secret": "1ce732c990"
+    },
+    {
+      "enrollId": "user_type4_3",
+      "enrollSecret": "c6b3f76c0b",
+      "affiliation": "group1",
+      "username": "user_type4_3",
+      "secret": "c6b3f76c0b"
+    },
+    {
+      "enrollId": "user_type4_4",
+      "enrollSecret": "ccfe001969",
+      "affiliation": "group1",
+      "username": "user_type4_4",
+      "secret": "ccfe001969"
+    },
+    {
+      "enrollId": "user_type8_0",
+      "enrollSecret": "17ebc70156",
+      "affiliation": "group1",
+      "username": "user_type8_0",
+      "secret": "17ebc70156"
+    },
+    {
+      "enrollId": "user_type8_1",
+      "enrollSecret": "4bfbea0ff7",
+      "affiliation": "group1",
+      "username": "user_type8_1",
+      "secret": "4bfbea0ff7"
+    },
+    {
+      "enrollId": "user_type8_2",
+      "enrollSecret": "3093964949",
+      "affiliation": "group1",
+      "username": "user_type8_2",
+      "secret": "3093964949"
+    },
+    {
+      "enrollId": "user_type8_3",
+      "enrollSecret": "38a16dd243",
+      "affiliation": "group1",
+      "username": "user_type8_3",
+      "secret": "38a16dd243"
+    },
+    {
+      "enrollId": "user_type8_4",
+      "enrollSecret": "a48f89f8ba",
+      "affiliation": "group1",
+      "username": "user_type8_4",
+      "secret": "a48f89f8ba"
+    }
+  ],
+  "cert": "https://blockchain-certs.mybluemix.net/us.blockchain.ibm.com.cert",
+  "cert_path": "/certs/peer/cert.pem"
+}
