@@ -10,3 +10,4 @@
  + 5××                     request unsuccessfully
  + 500                         parameter error
  + 501                     conflicts between requests
+ + 600                          Init Error
