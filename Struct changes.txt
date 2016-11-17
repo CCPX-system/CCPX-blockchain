@@ -1,0 +1,37 @@
+
+
+I have changed three file to meet our requirement.
+
+/*Changes in chaincode/marbles_chaincode.go*/
+
+type Marble struct{
+					
+	
+	Name string `json:"name"`					//the fieldtags are needed to keep case from bouncing around
+	Color string `json:"color"`
+	Size int `json:"size"`
+	User string `json:"user_id"`
+	CompanyID string `json:"companyid"`
+	ExChangePoint int `json:"exchangepoint"`
+		
+/*	
+	Name string `json:"name"`					//the fieldtags are needed to keep case from bouncing around
+	Color string `json:"color"`
+	Size int `json:"size"`
+	User string `json:"user"`       */
+	
+	
+}
+
+/*Changes in part1.js and part2.js*/
+
+var obj = 	{
+						type: 'create',
+						name: $('input[name="name"]').val().replace(' ', ''),
+						color: $('.colorSelected').attr('color'),
+						size: $('select[name="size"]').val(),
+						user: $('select[name="user_id"]').val(),
+						companyid: $('select[name="companyid"]').val(),
+						exchangepoint: $('select[name="exchangepoint"]').val(),
+						v: 1
+					};
