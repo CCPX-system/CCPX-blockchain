@@ -40,7 +40,10 @@ type Marble struct{
 	Name string `json:"name"`					//the fieldtags are needed to keep case from bouncing around
 	Color string `json:"color"`
 	Size int `json:"size"`
-	User string `json:"user"`
+	//User string `json:"user"`
+	User string `json:"user_id"`
+	CompanyID string `json:"companyid"`
+	ExChangePoint int `json:"exchangepoint"`
 }
 
 type Description struct{
@@ -49,7 +52,7 @@ type Description struct{
 }
 
 type AnOpenTrade struct{
-	User string `json:"user"`					//user who created the open trade order
+	User string `json:"user_id"`					//user who created the open trade order
 	Timestamp int64 `json:"timestamp"`			//utc timestamp of creation
 	Want Description  `json:"want"`				//description of desired marble等待被交易的marble
 	Willing []Description `json:"willing"`		//array of marbles willing to trade away愿意交易的marble数组
