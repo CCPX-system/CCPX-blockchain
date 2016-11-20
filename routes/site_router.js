@@ -32,7 +32,7 @@ router.route('/').get(function(req, res){
 // ============================================================================================================================
 // Part 1
 // ============================================================================================================================
-router.route('/p1').get(function(req, res){
+router.route('/marble_p1').get(function(req, res){
 	res.render('part1', {title: 'Marbles Part 1', bag: build_bag()});
 });
 router.route('/p1/:page?').get(function(req, res){
