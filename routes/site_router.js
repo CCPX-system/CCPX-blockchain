@@ -55,6 +55,28 @@ router.route('/p2/:page?').get(function(req, res){
 router.post('/',function(req, res,next){
 	res.json({ "message": 'Service got post requested' }); 
 });
+//webservices for seller about get latest record function
+router.post('/getLatRec', function (req, res, next) {  
+  	var sellerId = req.body.SELLER_ID;
+  	var record_num = req.body.RECORD_NUM;
+ 	 //Do query
+	 var result = [{"USER_A_ID":"krid",
+		"SELLER_A_ID":"chinaair",
+		"POINT_A":100,
+		"USER_B_ID":"florence",
+		"SELLER_B_ID":"KFC",
+		"POINT_B":50,
+		"EX_TIME":"2016-11-18"},
+		{"USER_A_ID":"colin",
+		"SELLER_A_ID":"chinaair",
+		"POINT_A":100,
+		"USER_B_ID":"lesley",
+		"SELLER_B_ID":"KFC",
+		"POINT_B":50,
+		"EX_TIME":"2016-11-18"}];
+	res.json(result);
+});
+
 /*router.post('/storeTx',(function(req, res){
 	res.json({ 
 		"respond": 100,
