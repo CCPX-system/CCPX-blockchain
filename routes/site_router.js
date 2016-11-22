@@ -109,7 +109,7 @@ router.post('/getTxInfo',function(req,res,next){
 	var exchange_time = req.body.EX_TIME;
 	// return the reponse code 
 	res.json({
-		"respond":100
+		"respond":100;
 	});
 });
 /*router.post('/storeTx',(function(req, res){
