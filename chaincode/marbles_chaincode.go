@@ -20,11 +20,11 @@ under the License.
 package main
 
 import (
-	"errors"
-	"fmt"
-	"strconv"
-	"encoding/json"
-	"time"
+	"errors"                                     //error类型本身就是一个预定义好的接口，里面定义了一个method
+	"fmt"                                        //Package fmt包含有格式化I/O函数，类似于C语言的printf和scanf。格式字符串的规则来源于C但更简单一些。
+	"strconv"                                    //字符串转换包
+	"encoding/json"                              //json转换包
+	"time"                                       //time.Duration（时长，耗时）time.Time（时间点）time.C（放时间点的管道）[ Time.C:=make(chan time.Time) ]
 	"strings"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -34,8 +34,8 @@ import (
 type SimpleChaincode struct {
 }
 
-var marbleIndexStr = "_marbleindex"				//name for the key/value that will store a list of all known marbles
-var openTradesStr = "_opentrades"				//name for the key/value that will store all open trades
+var marbleIndexStr = "_marbleindex"				//name for the key/value that will store a list of all known marbles存储所有marble
+var openTradesStr = "_opentrades"				//name for the key/value that will store all open trades存储所有开放交易
 
 type Marble struct{
 	Name string `json:"name"`					//the fieldtags are needed to keep case from bouncing around
@@ -44,19 +44,19 @@ type Marble struct{
 	User string `json:"user"`
 }
 
-type Description struct{
+type Description struct{                        //描述结构
 	Color string `json:"color"`
 	Size int `json:"size"`
 }
 
-type AnOpenTrade struct{
+type AnOpenTrade struct{                        //正在开放的交易
 	User string `json:"user"`					//user who created the open trade order
 	Timestamp int64 `json:"timestamp"`			//utc timestamp of creation
 	Want Description  `json:"want"`				//description of desired marble
 	Willing []Description `json:"willing"`		//array of marbles willing to trade away
 }
 
-type AllTrades struct{
+type AllTrades struct{                           //所有的交易
 	OpenTrades []AnOpenTrade `json:"open_trades"`
 }
 
@@ -78,7 +78,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	var err error
 
 	if len(args) != 1 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+		return nil, errors.New("Incorrect number of arguments. Expecting 1")//参数不正确
 	}
 
 	// Initialize the chaincode
@@ -89,19 +89,19 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 
 	// Write the state to the ledger
 	err = stub.PutState("abc", []byte(strconv.Itoa(Aval)))				//making a test var "abc", I find it handy to read/write to it right away to test the network
-	if err != nil {
+	if err != nil {                                                     //网络测试
 		return nil, err
 	}
 	
 	var empty []string
-	jsonAsBytes, _ := json.Marshal(empty)								//marshal an emtpy array of strings to clear the index
+	jsonAsBytes, _ := json.Marshal(empty)								//marshal an emtpy array of strings to clear the index编组一个空数组的字符串以清除索引
 	err = stub.PutState(marbleIndexStr, jsonAsBytes)
 	if err != nil {
 		return nil, err
 	}
 	
 	var trades AllTrades
-	jsonAsBytes, _ = json.Marshal(trades)								//clear the open trade struct
+	jsonAsBytes, _ = json.Marshal(trades)								//clear the open trade struct清除开放的交易结构
 	err = stub.PutState(openTradesStr, jsonAsBytes)
 	if err != nil {
 		return nil, err
@@ -121,31 +121,31 @@ func (t *SimpleChaincode) Run(stub shim.ChaincodeStubInterface, function string,
 // ============================================================================================================================
 // Invoke - Our entry point for Invocations
 // ============================================================================================================================
-func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {//调用函数
 	fmt.Println("invoke is running " + function)
 
 	// Handle different functions
-	if function == "init" {													//initialize the chaincode state, used as reset
+	if function == "init" {													//initialize the chaincode state, used as reset初始化chaincode状态，用作复位
 		return t.Init(stub, "init", args)
-	} else if function == "delete" {										//deletes an entity from its state
+	} else if function == "delete" {										//deletes an entity from its state从其状态删除实体
 		res, err := t.Delete(stub, args)
-		cleanTrades(stub)													//lets make sure all open trades are still valid
+		cleanTrades(stub)													//lets make sure all open trades are still valid确认所有开放交易仍然有效
 		return res, err
-	} else if function == "write" {											//writes a value to the chaincode state
+	} else if function == "write" {											//writes a value to the chaincode state将值写入链码状态
 		return t.Write(stub, args)
-	} else if function == "init_marble" {									//create a new marble
+	} else if function == "init_marble" {									//create a new marble新建marble
 		return t.init_marble(stub, args)
-	} else if function == "set_user" {										//change owner of a marble
+	} else if function == "set_user" {										//change owner of a marble改变marble属主
 		res, err := t.set_user(stub, args)
 		cleanTrades(stub)													//lets make sure all open trades are still valid
 		return res, err
-	} else if function == "open_trade" {									//create a new trade order
+	} else if function == "open_trade" {									//create a new trade order新建交易请求
 		return t.open_trade(stub, args)
-	} else if function == "perform_trade" {									//forfill an open trade order
+	} else if function == "perform_trade" {									//forfill an open trade order实现开放交易秩序
 		res, err := t.perform_trade(stub, args)
-		cleanTrades(stub)													//lets clean just in case
+		cleanTrades(stub)													//lets clean just in case清空交易
 		return res, err
-	} else if function == "remove_trade" {									//cancel an open trade order
+	} else if function == "remove_trade" {									//cancel an open trade order取消开放的交易
 		return t.remove_trade(stub, args)
 	}
 	fmt.Println("invoke did not find func: " + function)					//error
@@ -154,7 +154,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 }
 
 // ============================================================================================================================
-// Query - Our entry point for Queries
+// Query - Our entry point for Queries查询入口
 // ============================================================================================================================
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("query is running " + function)
@@ -169,14 +169,14 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 }
 
 // ============================================================================================================================
-// Read - read a variable from chaincode state
+// Read - read a variable from chaincode state从链码状态读取一个变量
 // ============================================================================================================================
 func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var name, jsonResp string
 	var err error
 
 	if len(args) != 1 {
-		return nil, errors.New("Incorrect number of arguments. Expecting name of the var to query")
+		return nil, errors.New("Incorrect number of arguments. Expecting name of the var to query")//参数个数不正确，期望查询的var的名称
 	}
 
 	name = args[0]
@@ -250,11 +250,14 @@ func (t *SimpleChaincode) Write(stub shim.ChaincodeStubInterface, args []string)
 }
 
 // ============================================================================================================================
-// Init Marble - create a new marble, store into chaincode state
+// Init Marble - create a new marble, store into chaincode state初始化marble
 // ============================================================================================================================
 func (t *SimpleChaincode) init_marble(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
-
+//=============================================================================================================================
+//==================================================需要修改args中的值==========================================================
+//=================================================以此对应marble的属性=========================================================
+//*****************************************************************************************************************************	
 	//   0       1       2     3
 	// "asdf", "blue", "35", "bob"
 	if len(args) != 4 {
@@ -291,7 +294,7 @@ func (t *SimpleChaincode) init_marble(stub shim.ChaincodeStubInterface, args []s
 	res := Marble{}
 	json.Unmarshal(marbleAsBytes, &res)
 	if res.Name == name{
-		fmt.Println("This marble arleady exists: " + name)
+		fmt.Println("This marble arleady exists: " + name)                  //marble名字是主码
 		fmt.Println(res);
 		return nil, errors.New("This marble arleady exists")				//all stop a marble by this name exists
 	}
@@ -322,7 +325,7 @@ func (t *SimpleChaincode) init_marble(stub shim.ChaincodeStubInterface, args []s
 }
 
 // ============================================================================================================================
-// Set User Permission on Marble
+// Set User Permission on Marble设置用户权限
 // ============================================================================================================================
 func (t *SimpleChaincode) set_user(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
@@ -424,7 +427,7 @@ func (t *SimpleChaincode) open_trade(stub shim.ChaincodeStubInterface, args []st
 }
 
 // ============================================================================================================================
-// Perform Trade - close an open trade and move ownership
+// Perform Trade - close an open trade and move ownership执行交易- 关闭一个开放的贸易和所有权转移
 // ============================================================================================================================
 func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
@@ -456,7 +459,7 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 	
 	for i := range trades.OpenTrades{																//look for the trade
 		fmt.Println("looking at " + strconv.FormatInt(trades.OpenTrades[i].Timestamp, 10) + " for " + strconv.FormatInt(timestamp, 10))
-		if trades.OpenTrades[i].Timestamp == timestamp{
+		if trades.OpenTrades[i].Timestamp == timestamp{ //按照时间戳记录交易
 			fmt.Println("found the trade");
 			
 			
@@ -495,7 +498,7 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 }
 
 // ============================================================================================================================
-// findMarble4Trade - look for a matching marble that this user owns and return it
+// findMarble4Trade - look for a matching marble that this user owns and return it查找此用户拥有并返回的匹配的marble
 // ============================================================================================================================
 func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color string, size int )(m Marble, err error){
 	var fail Marble;
@@ -568,7 +571,7 @@ func (t *SimpleChaincode) remove_trade(stub shim.ChaincodeStubInterface, args []
 	
 	for i := range trades.OpenTrades{																	//look for the trade
 		//fmt.Println("looking at " + strconv.FormatInt(trades.OpenTrades[i].Timestamp, 10) + " for " + strconv.FormatInt(timestamp, 10))
-		if trades.OpenTrades[i].Timestamp == timestamp{
+		if trades.OpenTrades[i].Timestamp == timestamp{//依靠时间戳查找
 			fmt.Println("found the trade");
 			trades.OpenTrades = append(trades.OpenTrades[:i], trades.OpenTrades[i+1:]...)				//remove this trade
 			jsonAsBytes, _ := json.Marshal(trades)
@@ -651,3 +654,21 @@ func cleanTrades(stub shim.ChaincodeStubInterface)(err error){
 	fmt.Println("- end clean trades")
 	return nil
 }
+//=======================================================================================================================================
+//方法说明：
+//Init - reset all the things
+//Run - Our entry point for Invocations
+//Invoke - Our entry point for Invocations
+//Query - Our entry point for Queries查询入口
+//Read - read a variable from chaincode state从链码状态读取一个变量（根据名字查找颜色、大小等）
+//Delete - remove a key/value pair from state根据名字（name值）删除
+//Write - write variable into chaincode state向chaincode中写值args[0]=name,args[1]=value
+//Init Marble - create a new marble, store into chaincode state 初始化marble args[0]=name,args[1]=color,args[2]=size,args[3]=user
+//Set User Permission on Marble设置用户权限 args[0]=state,args[1]=user
+//Open Trade - create an open trade for a marble you want with marbles you have 创建marble的开放交易 args[0]=user,args[1]=want.color,args[2]=want.size,args[3]=,args[4]=,args[5]=
+//Perform Trade - close an open trade and move ownership 执行交易- 关闭一个开放的交易和所有权转移 args[0]=data.id,args[1]= data.closer.user,args[2]= data.closer.name,args[3]=data.opener.user,args[4]=data.opener.color,args[5]=data.opener.size
+//findMarble4Trade - look for a matching marble that this user owns and return it查找此用户拥有并返回的匹配的marble
+//Make Timestamp - create a timestamp in ms
+//Remove Open Trade - close an open trade args[0]=data.id
+//Clean Up Open Trades - make sure open trades are still possible, remove choices that are no longer possible, remove trades that have no valid choices
+//=========================================================================================================================================
