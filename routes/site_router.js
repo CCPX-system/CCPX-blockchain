@@ -85,13 +85,13 @@ router.post('/getIAExRec',function(req,res,next){
 	var startTime = req.body.START_TIME;
 	var endTime = req.body.END_TIME;
 	//Do query
-	var result = [{"USER_A_ID":"5","SELLER_A_ID":"5","POINTS_A":10,"USER_B_ID":"6","SELLER_B_ID":"6","POINTS_B":110,"EX_TIME":"2016/11/07 00:10:00"},
-		      {"USER_A_ID":"5","SELLER_A_ID":"6","POINTS_A":20,"USER_B_ID":"6","SELLER_B_ID":"5","POINTS_B":220,"EX_TIME":"2016/11/07 00:15:00"},
-		      {"USER_A_ID":"5","SELLER_A_ID":"5","POINTS_A":30,"USER_B_ID":"6","SELLER_B_ID":"9","POINTS_B":330,"EX_TIME":"2016/11/07 00:20:00"},
-		      {"USER_A_ID":"7","SELLER_A_ID":"5","POINTS_A":40,"USER_B_ID":"6","SELLER_B_ID":"23","POINTS_B":440,"EX_TIME":"2016/11/07 00:21:00"},
-		      {"USER_A_ID":"8","SELLER_A_ID":"5","POINTS_A":50,"USER_B_ID":"6","SELLER_B_ID":"19","POINTS_B":550,"EX_TIME":"2016/11/07 00:26:00"},
-		      {"USER_A_ID":"8","SELLER_A_ID":"5","POINTS_A":60,"USER_B_ID":"6","SELLER_B_ID":"13","POINTS_B":660,"EX_TIME":"2016/11/07 00:50:00"},
-		      {"USER_A_ID":"8","SELLER_A_ID":"5","POINTS_A":70,"USER_B_ID":"6","SELLER_B_ID":"8","POINTS_B":770,"EX_TIME":"2016/11/07 00:00:00"}];
+	var result = [{"USER_A_ID":"5","SELLER_A_ID":"5","POINT_A":10,"USER_B_ID":"6","SELLER_B_ID":"6","POINT_B":110,"EX_TIME":"2016/11/07 00:10:00"},
+		      {"USER_A_ID":"5","SELLER_A_ID":"6","POINT_A":20,"USER_B_ID":"6","SELLER_B_ID":"5","POINT_B":220,"EX_TIME":"2016/11/07 00:15:00"},
+		      {"USER_A_ID":"5","SELLER_A_ID":"5","POINT_A":30,"USER_B_ID":"6","SELLER_B_ID":"9","POINT_B":330,"EX_TIME":"2016/11/07 00:20:00"},
+		      {"USER_A_ID":"7","SELLER_A_ID":"5","POINT_A":40,"USER_B_ID":"6","SELLER_B_ID":"23","POINT_B":440,"EX_TIME":"2016/11/07 00:21:00"},
+		      {"USER_A_ID":"8","SELLER_A_ID":"5","POINT_A":50,"USER_B_ID":"6","SELLER_B_ID":"19","POINT_B":550,"EX_TIME":"2016/11/07 00:26:00"},
+		      {"USER_A_ID":"8","SELLER_A_ID":"5","POINT_A":60,"USER_B_ID":"6","SELLER_B_ID":"13","POINT_B":660,"EX_TIME":"2016/11/07 00:50:00"},
+		      {"USER_A_ID":"8","SELLER_A_ID":"5","POINT_A":70,"USER_B_ID":"6","SELLER_B_ID":"8","POINT_B":770,"EX_TIME":"2016/11/07 00:00:00"}];
 	res.json({
 		"respond":100,
 		"content":result
