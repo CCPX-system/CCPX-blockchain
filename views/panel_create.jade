@@ -13,12 +13,6 @@
 			br
 			legend
 				include ./template/color_options.jade
-			
-			//Add a text to input point,just for testing
-			br
-			legend 
-				input(type="text" name="point" placeholder="Write Your Point" onkeyup="if(!/^\d+$/.test(this.value)) {alert('Only Numbers!'); this.value=this.value.replace(/[^\d]+/g,'');}")
-				span.hint &nbsp;&nbsp;
 				
 			br
 			legend 
