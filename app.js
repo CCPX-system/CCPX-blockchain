@@ -77,6 +77,48 @@ app.use(function(req, res, next){
 	if(req.parameters && keys.length > 0) console.log({parameters: req.parameters});		//print request parameters for debug
 	keys = Object.keys(req.body);
 	if (req.body && keys.length > 0) console.log({body: req.body});							//print request body for debug
+	if(req.url == '/process'){
+		var part1 = require('./utils/ws_part1');														//websocket message processing for part 1
+		var part2 = require('./utils/ws_part2');														//websocket message processing for part 2
+		var ws = require('ws');	
+		//用户A创建marble的数据
+		var data1 = 	{
+				type: 'create',
+				name: req.body.USER_A_ID+req.body.EX_TIME,
+				color: req.body.SELLER_A_ID,
+				size: req.body.POINT_A,
+				user: req.body.USER_A_ID,
+				v: 1
+			};
+		var data2 = 	{
+				type: 'create',
+				name: req.body.USER_B_ID+req.body.EX_TIME,
+				color: req.body.SELLER_B_ID,
+				size: req.body.POINT_B,
+				user: req.body.USER_B_ID,
+				v: 1
+			};
+		//A的marble name，A的points，B的user_id
+		var change1 = {
+			type: 'transfer',
+			name: req.body.USER_B_ID+req.body.EX_TIME,
+			size: req.body.POINT_B,
+			user: req.body.USER_A_ID,
+			v: 1
+		};
+		var change2 = {
+				type: 'transfer',
+				name: req.body.USER_A_ID+req.body.EX_TIME,
+				size: req.body.POINT_A,
+				user: req.body.USER_B_ID,
+				v: 1
+			};
+		part1.process_msg(ws,data1);
+		part1.process_msg(ws,data2);
+		part1.process_msg(ws,change1);
+		part1.process_msg(ws,change2);
+		console.log("test");
+	}
 	next();
 });
 
