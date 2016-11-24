@@ -15,7 +15,13 @@ module.exports.process_msg = function(ws, data){
 		if(data.type == 'create'){
 			console.log('its a create!');
 			if(data.name && data.color && data.size && data.user){
-				chaincode.invoke.init_marble([data.name, data.color, data.size, data.user], cb_invoked);	//create a new marble
+				var i =  0;
+				for(i = 0; i < data.size; i++)
+				{
+					data.name = data.name + i;
+					
+					chaincode.invoke.init_marble([data.name, data.color, 1, data.user], cb_invoked);	//create some new marbles,size = 1	
+				}				
 			}
 		}
 		else if(data.type == 'get'){
@@ -24,8 +30,13 @@ module.exports.process_msg = function(ws, data){
 		}
 		else if(data.type == 'transfer'){
 			console.log('transfering msg');
-			if(data.name && data.user){
-				chaincode.invoke.set_user([data.name, data.user]);
+			if(data.name && data.user&& data.size){
+				var i = 0;
+				for(i = 0; i< data.size; i++)
+				{
+					data.name = data.name + i;
+					chaincode.invoke.set_user([data.name, data.user]);
+				}
 			}
 		}
 		else if(data.type == 'remove'){
