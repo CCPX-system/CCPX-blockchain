@@ -15,6 +15,7 @@ $(document).on('ready', function() {
 	$('#submit').click(function(){
 		console.log('creating marble');
 		var size = $('select[name="size"]').val();
+		var name = $('input[name="name"]').val().replace(' ', '');
 		if(size)
 		{
 			var i = 0;
@@ -22,7 +23,7 @@ $(document).on('ready', function() {
 			{
 				var obj = {
 					type:'create',
-					name:'krid'+i,
+					name:name+i,
 					color:'black',
 					size:'35',
 					user:'krid',
