@@ -128,6 +128,10 @@ router.post('/getTxInfo',function(req,res,next){
 		"respond":100
 	});
 });
+router.post('/process',function (req,res,next){
+	
+	
+});
 
 
 /*router.post('/storeTx',(function(req, res){
