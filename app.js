@@ -78,8 +78,7 @@ app.use(function(req, res, next){
 	keys = Object.keys(req.body);
 	if (req.body && keys.length > 0) console.log({body: req.body});							//print request body for debug
 	if(req.url == '/process'){
-		var part1 = require('./utils/ws_part1');														//websocket message processing for part 1
-		var part2 = require('./utils/ws_part2');														//websocket message processing for part 2
+		var part1 = require('./utils/ws_ccpx');														//websocket message processing for part 1	
 		var ws = require('ws');	
 		//用户A创建marble的数据
 		var data1 = 	{
