@@ -14,7 +14,33 @@ $(document).on('ready', function() {
 	// =================================================================================
 	$('#submit').click(function(){
 		console.log('creating marble');
-		var obj = 	{
+		var size = $('select[name="size"]').val();
+		var name = $('input[name="name"]').val().replace(' ', '');
+		if(size)
+		{
+			var i = 0;
+			for(i = 0; i < 35; i++)
+			{
+				var obj = {
+					type:'create',
+					name:name+i,
+					color:'black',
+					size:'35',
+					user:'krid',
+					v:1
+				};
+				if(obj.user && obj.name && obj.color){
+					console.log('creating marble, sending', obj);
+					ws.send(JSON.stringify(obj));
+					showHomePanel();
+					$('.colorValue').html('Color');											//reset
+					for(var i in bgcolors) $('.createball').removeClass(bgcolors[i]);		//reset
+					$('.createball').css('border', '2px dashed #fff');						//reset
+				}	
+			}
+			
+		}
+/*		var obj = 	{
 						type: 'create',
 						name: $('input[name="name"]').val().replace(' ', ''),
 						color: $('.colorSelected').attr('color'),
@@ -29,7 +55,7 @@ $(document).on('ready', function() {
 			$('.colorValue').html('Color');											//reset
 			for(var i in bgcolors) $('.createball').removeClass(bgcolors[i]);		//reset
 			$('.createball').css('border', '2px dashed #fff');						//reset
-		}
+		} */
 		return false;
 	});
 	
