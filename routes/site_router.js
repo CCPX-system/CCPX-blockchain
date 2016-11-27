@@ -99,7 +99,7 @@ router.post('/getIAExRec',function(req,res,next){
 });
 
 //webservice for platform to record the transaction and return the reponse code 
-router.post('/getTxInfo',function(req,res,next){
+/*router.post('/getTxInfo',function(req,res,next){
 	var user_A_id = req.body.USER_A_ID;
 	var seller_A_id = req.body.SELLER_A_ID;
 	var point_A = req.body.POINT_A;
@@ -111,7 +111,7 @@ router.post('/getTxInfo',function(req,res,next){
 	res.json({
 		"respond":100
 	});
-});
+});*/
 
 
 //webservice for platform to record the transaction and return the reponse code 
