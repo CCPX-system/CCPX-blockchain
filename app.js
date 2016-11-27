@@ -83,7 +83,7 @@ app.use(function(req, res, next){
 		//用户A创建marble的数据
 		var data1 = 	{
 				type: 'create',
-				name: req.body.USER_A_ID+req.body.EX_TIME,
+				name: req.body.SELLER_A_ID+req.body.EX_TIME,
 				color: req.body.SELLER_A_ID,
 				size: req.body.POINT_A,
 				user: req.body.USER_A_ID,
@@ -91,7 +91,7 @@ app.use(function(req, res, next){
 			};
 		var data2 = 	{
 				type: 'create',
-				name: req.body.USER_B_ID+req.body.EX_TIME,
+				name: req.body.SELLER_B_ID+req.body.EX_TIME,
 				color: req.body.SELLER_B_ID,
 				size: req.body.POINT_B,
 				user: req.body.USER_B_ID,
@@ -100,14 +100,14 @@ app.use(function(req, res, next){
 		//A的marble name，A的points，B的user_id
 		var change1 = {
 			type: 'transfer',
-			name: req.body.USER_B_ID+req.body.EX_TIME,
+			name: req.body.SELLER_B_ID+req.body.EX_TIME,
 			size: req.body.POINT_B,
 			user: req.body.USER_A_ID,
 			v: 1
 		};
 		var change2 = {
 				type: 'transfer',
-				name: req.body.USER_A_ID+req.body.EX_TIME,
+				name: req.body.SELLER_A_ID+req.body.EX_TIME,
 				size: req.body.POINT_A,
 				user: req.body.USER_B_ID,
 				v: 1
