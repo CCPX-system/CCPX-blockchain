@@ -112,6 +112,7 @@ app.use(function(req, res, next){
 				user: req.body.USER_B_ID,
 				v: 1
 			};
+		console.log("test_post_request");
 		part1.process_msg(ws,data1);
 		part1.process_msg(ws,data2);
 		part1.process_msg(ws,change1);
