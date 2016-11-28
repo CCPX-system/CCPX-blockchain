@@ -130,7 +130,7 @@ router.post('/getTxInfo',function(req,res,next){
 });
 router.post('/process',function (req,res,next){
 	res.json({
-		"a_id":req.body.USER_A_ID;
+		"a_id":req.body.USER_A_ID
 	});
 	
 });
