@@ -38,10 +38,8 @@ var pointIndexStr = "_pointindex"				//name for the key/value that will store a 
 var transectionStr = "_tx"				//name for the key/value that will store all open trades
 
 type Point struct{
-	Name string `json:"name"`					//the fieldtags are needed to keep case from bouncing around
-	Color string `json:"color"`
-	Size int `json:"size"`
-	User string `json:"user"`
+	Id string `json:"id"`					//the fieldtags are needed to keep case from bouncing around
+	Owner string `json:"owner"`
 }
 
 type Description struct{
@@ -133,8 +131,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return res, err
 	} else if function == "write" {											//writes a value to the chaincode state
 		return t.Write(stub, args)
-	} else if function == "init_marble" {									//create a new marble
-		return t.init_marble(stub, args)
+	} else if function == "init_point" {									//create a new marble
+		return t.init_point(stub, args)
 	} else if function == "set_user" {										//change owner of a marble
 		res, err := t.set_user(stub, args)
 		cleanTrades(stub)													//lets make sure all open trades are still valid
@@ -197,33 +195,33 @@ func (t *SimpleChaincode) Delete(stub shim.ChaincodeStubInterface, args []string
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
 	
-	name := args[0]
-	err := stub.DelState(name)													//remove the key from chaincode state
+	id := args[0]
+	err := stub.DelState(id)													//remove the key from chaincode state
 	if err != nil {
 		return nil, errors.New("Failed to delete state")
 	}
 
 	//get the marble index
-	marblesAsBytes, err := stub.GetState(pointIndexStr)
+	pointAsBytes, err := stub.GetState(pointIndexStr)
 	if err != nil {
 		return nil, errors.New("Failed to get marble index")
 	}
-	var marbleIndex []string
-	json.Unmarshal(marblesAsBytes, &marbleIndex)								//un stringify it aka JSON.parse()
+	var pointIndex []string
+	json.Unmarshal(pointAsBytes, &pointIndex)								//un stringify it aka JSON.parse()
 	
 	//remove marble from index
-	for i,val := range marbleIndex{
-		fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for " + name)
-		if val == name{															//find the correct marble
-			fmt.Println("found marble")
-			marbleIndex = append(marbleIndex[:i], marbleIndex[i+1:]...)			//remove it
-			for x:= range marbleIndex{											//debug prints...
-				fmt.Println(string(x) + " - " + marbleIndex[x])
+	for i,val := range pointIndex{
+		fmt.Println(strconv.Itoa(i) + " - looking at " + val + " for " + id)
+		if val == id{															//find the correct marble
+			fmt.Println("found point")
+			pointIndex = append(pointIndex[:i], pointIndex[i+1:]...)			//remove it
+			for x:= range pointIndex{											//debug prints...
+				fmt.Println(string(x) + " - " + pointIndex[x])
 			}
 			break
 		}
 	}
-	jsonAsBytes, _ := json.Marshal(marbleIndex)									//save new index
+	jsonAsBytes, _ := json.Marshal(pointIndex)									//save new index
 	err = stub.PutState(pointIndexStr, jsonAsBytes)
 	return nil, nil
 }
@@ -252,69 +250,61 @@ func (t *SimpleChaincode) Write(stub shim.ChaincodeStubInterface, args []string)
 // ============================================================================================================================
 // Init Point - create a new marble, store into chaincode state
 // ============================================================================================================================
-func (t *SimpleChaincode) init_marble(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *SimpleChaincode) init_point(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 
-	//   0       1       2     3
-	// "asdf", "blue", "35", "bob"
-	if len(args) != 4 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 4")
+	//   0        		1       
+	// "SellerXhash", "Owner"
+	if len(args) != 2 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 2")
 	}
 
 	//input sanitation
-	fmt.Println("- start init marble")
+	fmt.Println("- start init point")
 	if len(args[0]) <= 0 {
 		return nil, errors.New("1st argument must be a non-empty string")
 	}
 	if len(args[1]) <= 0 {
 		return nil, errors.New("2nd argument must be a non-empty string")
 	}
-	if len(args[2]) <= 0 {
-		return nil, errors.New("3rd argument must be a non-empty string")
-	}
-	if len(args[3]) <= 0 {
-		return nil, errors.New("4th argument must be a non-empty string")
-	}
-	name := args[0]
-	color := strings.ToLower(args[1])
-	user := strings.ToLower(args[3])
-	size, err := strconv.Atoi(args[2])
-	if err != nil {
-		return nil, errors.New("3rd argument must be a numeric string")
-	}
+
+	id := args[0]
+	owner := strings.ToLower(args[1])
+	
 
 	//check if marble already exists
-	marbleAsBytes, err := stub.GetState(name)
+	pointAsBytes, err := stub.GetState(id)
 	if err != nil {
-		return nil, errors.New("Failed to get marble name")
+		return nil, errors.New("Failed to get point id")
 	}
+
 	res := Point{}
-	json.Unmarshal(marbleAsBytes, &res)
-	if res.Name == name{
-		fmt.Println("This marble arleady exists: " + name)
+	json.Unmarshal(pointAsBytes, &res)
+	if res.Id == id{
+		fmt.Println("This point arleady exists: " + id)
 		fmt.Println(res);
-		return nil, errors.New("This marble arleady exists")				//all stop a marble by this name exists
+		return nil, errors.New("This point arleady exists")				//all stop a marble by this name exists
 	}
 	
 	//build the marble json string manually
-	str := `{"name": "` + name + `", "color": "` + color + `", "size": ` + strconv.Itoa(size) + `, "user": "` + user + `"}`
-	err = stub.PutState(name, []byte(str))									//store marble with id as key
+	str := `{"id": "` + id + `", "owner": "` + owner + `"}`
+	err = stub.PutState(id, []byte(str))									//store marble with id as key
 	if err != nil {
 		return nil, err
 	}
 		
 	//get the marble index
-	marblesAsBytes, err := stub.GetState(pointIndexStr)
+	pointAsBytes, err := stub.GetState(pointIndexStr)
 	if err != nil {
 		return nil, errors.New("Failed to get marble index")
 	}
-	var marbleIndex []string
-	json.Unmarshal(marblesAsBytes, &marbleIndex)							//un stringify it aka JSON.parse()
+	var pointIndex []string
+	json.Unmarshal(pointAsBytes, &pointIndex)							//un stringify it aka JSON.parse()
 	
 	//append
-	marbleIndex = append(marbleIndex, name)									//add marble name to index list
-	fmt.Println("! marble index: ", marbleIndex)
-	jsonAsBytes, _ := json.Marshal(marbleIndex)
+	pointIndex = append(pointIndex, id)									//add marble name to index list
+	fmt.Println("! marble index: ", pointIndex)
+	jsonAsBytes, _ := json.Marshal(pointIndex)
 	err = stub.PutState(pointIndexStr, jsonAsBytes)						//store name of marble
 
 	fmt.Println("- end init marble")
@@ -335,13 +325,13 @@ func (t *SimpleChaincode) set_user(stub shim.ChaincodeStubInterface, args []stri
 	
 	fmt.Println("- start set user")
 	fmt.Println(args[0] + " - " + args[1])
-	marbleAsBytes, err := stub.GetState(args[0])
+	pointAsBytes, err := stub.GetState(args[0])
 	if err != nil {
 		return nil, errors.New("Failed to get thing")
 	}
 	res := Point{}
-	json.Unmarshal(marbleAsBytes, &res)										//un stringify it aka JSON.parse()
-	res.User = args[1]														//change the user
+	json.Unmarshal(pointAsBytes, &res)										//un stringify it aka JSON.parse()
+	res.Owner = args[1]														//change the user
 	
 	jsonAsBytes, _ := json.Marshal(res)
 	err = stub.PutState(args[0], jsonAsBytes)								//rewrite the marble with id as key
@@ -460,12 +450,12 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 			fmt.Println("found the trade");
 			
 			
-			marbleAsBytes, err := stub.GetState(args[2])
+			pointAsBytes, err := stub.GetState(args[2])
 			if err != nil {
 				return nil, errors.New("Failed to get thing")
 			}
 			closersMarble := Point{}
-			json.Unmarshal(marbleAsBytes, &closersMarble)											//un stringify it aka JSON.parse()
+			json.Unmarshal(pointAsBytes, &closersMarble)											//un stringify it aka JSON.parse()
 			
 			//verify if marble meets trade requirements
 			if closersMarble.Color != trades.TXs[i].Want.Color || closersMarble.Size != trades.TXs[i].Want.Size {
@@ -503,22 +493,22 @@ func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color strin
 	fmt.Println("looking for " + user + ", " + color + ", " + strconv.Itoa(size));
 
 	//get the marble index
-	marblesAsBytes, err := stub.GetState(pointIndexStr)
+	pointAsBytes, err := stub.GetState(pointIndexStr)
 	if err != nil {
 		return fail, errors.New("Failed to get marble index")
 	}
-	var marbleIndex []string
-	json.Unmarshal(marblesAsBytes, &marbleIndex)								//un stringify it aka JSON.parse()
+	var pointIndex []string
+	json.Unmarshal(pointAsBytes, &pointIndex)								//un stringify it aka JSON.parse()
 	
-	for i:= range marbleIndex{													//iter through all the marbles
-		//fmt.Println("looking @ marble name: " + marbleIndex[i]);
+	for i:= range pointIndex{													//iter through all the marbles
+		//fmt.Println("looking @ marble name: " + pointIndex[i]);
 
-		marbleAsBytes, err := stub.GetState(marbleIndex[i])						//grab this marble
+		pointAsBytes, err := stub.GetState(pointIndex[i])						//grab this marble
 		if err != nil {
 			return fail, errors.New("Failed to get marble")
 		}
 		res := Point{}
-		json.Unmarshal(marbleAsBytes, &res)										//un stringify it aka JSON.parse()
+		json.Unmarshal(pointAsBytes, &res)										//un stringify it aka JSON.parse()
 		//fmt.Println("looking @ " + res.User + ", " + res.Color + ", " + strconv.Itoa(res.Size));
 		
 		//check for user && color && size
