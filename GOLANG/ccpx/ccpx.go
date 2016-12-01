@@ -48,10 +48,13 @@ type Description struct{
 }
 
 type Transaction struct{
-	User string `json:"user"`					//user who created the open trade order
+	Id string `json:"txID"`					//user who created the open trade order
 	Timestamp int64 `json:"timestamp"`			//utc timestamp of creation
-	Want Description  `json:"want"`				//description of desired marble
-	Willing []Description `json:"willing"`		//array of marbles willing to trade away
+	TraderA string  `json:"traderA"`				//description of desired marble
+	TraderB string  `json:"traderB"`
+	PointA string  `json:"pointA"`
+	PointB string  `json:"pointB"`
+	Related []Point `json:"related"`		//array of marbles willing to trade away
 }
 
 type AllTx struct{
@@ -138,10 +141,11 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		//cleanTrades(stub)													//lets make sure all open trades are still valid
 		return res, err
 	} else if function == "findPointWithOwner"{
-		return t.findPointWithOwner(stub, args)
-	} 
+		res, err:= t.findPointWithOwner(stub, args)
+		return res,err
+	}/* 
 
-	/*else if function == "open_trade" {									//create a new trade order
+	else if function == "open_trade" {									//create a new trade order
 		return t.open_trade(stub, args)
 	}
 	  else if function == "perform_trade" {									//forfill an open trade order
@@ -493,9 +497,10 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 // ============================================================================================================================
 // findMarble4Trade - look for a matching marble that this user owns and return it
 // ============================================================================================================================
-func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, args []string )([]byte, error){
+
+func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, args []string )([]string, error){
 //func findPointWithOwner(stub shim.ChaincodeStubInterface, owner string )(m Point, err error){
-	var fail []byte
+	var fail []string
 	var owner = args[0]
 	fmt.Println("- start find marble 4 trade")
 	fmt.Println("looking for " + owner)
@@ -508,7 +513,7 @@ func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, a
 	var pointIndex []string
 	json.Unmarshal(pointAsBytes, &pointIndex)								//un stringify it aka JSON.parse()
 
-	var pointRelated []byte
+	var pointRelated []string
 
 	for i:= range pointIndex{													//iter through all the marbles
 		//fmt.Println("looking @ marble name: " + pointIndex[i]);
@@ -525,7 +530,7 @@ func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, a
 		if strings.ToLower(res.Owner) == strings.ToLower(owner){
 			fmt.Println("found a marble: " + res.Id)
 			fmt.Println("! end find marble 4 trade")
-			pointRelated = Extend(pointRelated , pointAsBytes)
+			pointRelated = append(pointRelated , res.Id)
 			//return res, nil
 		}
 
