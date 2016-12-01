@@ -53,7 +53,7 @@ type Description struct{
 
 type Transaction struct{
 	Id string `json:"txID"`					//user who created the open trade order
-	Timestamp int64 `json:"timestamp"`			//utc timestamp of creation
+	Timestamp Time `json:"timestamp"`			//utc timestamp of creation
 	TraderA string  `json:"traderA"`				//description of desired marble
 	TraderB string  `json:"traderB"`
 	PointA string  `json:"pointA"`
@@ -249,12 +249,13 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		}
 		return txAsbytes, nil*/
 	}	
-	return nil, error.New(jsonResp)													//send it onward
+	return nil, err													//send it onward
 }
 
-func findPointWithOwner(stub shim.ChaincodeStubInterface, owner string )(m Point, err error){
+/*func findPointWithOwner(stub shim.ChaincodeStubInterface, owner string )(m Point, err error){
 
-}
+
+}*/
 // ============================================================================================================================
 // Delete - remove a key/value pair from state
 // ============================================================================================================================
@@ -397,17 +398,17 @@ func (t *SimpleChaincode) init_transaction(stub shim.ChaincodeStubInterface, arg
 	Related []Point `json:"related"`		//array of marbles willing to trade away
 }
 	*/
-	if len(args) < 4 {
+	if len(args) < 3 {
 		return nil, errors.New("Incorrect number of arguments. Expecting like 4?")
 	}
 
 	open := Transaction{}
 	open.Id = args[0]
-	open.Timestamp = args[1]
-	open.TraderA = args[2]
-	open.TraderB = args[3]
-	open.PointA = args[4]
-	open.PointB = args[5]
+	open.Timestamp = Now()
+	open.TraderA = args[1]
+	open.TraderB = args[2]
+	open.PointA = args[3]
+	open.PointB = args[4]
 	
 	fmt.Println("- start open trade")
 	jsonAsBytes, _ := json.Marshal(open)
