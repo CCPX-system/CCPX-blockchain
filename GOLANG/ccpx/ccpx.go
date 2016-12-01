@@ -250,7 +250,7 @@ func (t *SimpleChaincode) Write(stub shim.ChaincodeStubInterface, args []string)
 }
 
 // ============================================================================================================================
-// Init Marble - create a new marble, store into chaincode state
+// Init Point - create a new marble, store into chaincode state
 // ============================================================================================================================
 func (t *SimpleChaincode) init_marble(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
@@ -288,7 +288,7 @@ func (t *SimpleChaincode) init_marble(stub shim.ChaincodeStubInterface, args []s
 	if err != nil {
 		return nil, errors.New("Failed to get marble name")
 	}
-	res := Marble{}
+	res := Point{}
 	json.Unmarshal(marbleAsBytes, &res)
 	if res.Name == name{
 		fmt.Println("This marble arleady exists: " + name)
@@ -322,7 +322,7 @@ func (t *SimpleChaincode) init_marble(stub shim.ChaincodeStubInterface, args []s
 }
 
 // ============================================================================================================================
-// Set User Permission on Marble
+// Set User Permission on Point
 // ============================================================================================================================
 func (t *SimpleChaincode) set_user(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
@@ -339,7 +339,7 @@ func (t *SimpleChaincode) set_user(stub shim.ChaincodeStubInterface, args []stri
 	if err != nil {
 		return nil, errors.New("Failed to get thing")
 	}
-	res := Marble{}
+	res := Point{}
 	json.Unmarshal(marbleAsBytes, &res)										//un stringify it aka JSON.parse()
 	res.User = args[1]														//change the user
 	
@@ -464,7 +464,7 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 			if err != nil {
 				return nil, errors.New("Failed to get thing")
 			}
-			closersMarble := Marble{}
+			closersMarble := Point{}
 			json.Unmarshal(marbleAsBytes, &closersMarble)											//un stringify it aka JSON.parse()
 			
 			//verify if marble meets trade requirements
@@ -497,8 +497,8 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 // ============================================================================================================================
 // findMarble4Trade - look for a matching marble that this user owns and return it
 // ============================================================================================================================
-func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color string, size int )(m Marble, err error){
-	var fail Marble;
+func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color string, size int )(m Point, err error){
+	var fail Point;
 	fmt.Println("- start find marble 4 trade")
 	fmt.Println("looking for " + user + ", " + color + ", " + strconv.Itoa(size));
 
@@ -517,7 +517,7 @@ func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color strin
 		if err != nil {
 			return fail, errors.New("Failed to get marble")
 		}
-		res := Marble{}
+		res := Point{}
 		json.Unmarshal(marbleAsBytes, &res)										//un stringify it aka JSON.parse()
 		//fmt.Println("looking @ " + res.User + ", " + res.Color + ", " + strconv.Itoa(res.Size));
 		
