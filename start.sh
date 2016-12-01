@@ -2,7 +2,7 @@
 
 cd docker-hyperledger
 . setenv.sh
-docker-composer -f single-peer-ca.ymal up -d
+docker-compose -f single-peer-ca.ymal up -d
 
 cd ../docker-webservice
 docker build -t ccpx/ws .
