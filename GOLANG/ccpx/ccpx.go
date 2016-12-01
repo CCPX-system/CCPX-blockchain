@@ -183,7 +183,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 	}
 
 	name = args[0]
-	valAsbytes, err := stub.GetState(id)									//get the var from chaincode state
+	valAsbytes, err := stub.GetState(name)									//get the var from chaincode state
 	if err != nil {
 		jsonResp = "{\"Error\":\"Failed to get state for " + id + "\"}"
 		return nil, errors.New(jsonResp)
@@ -493,7 +493,7 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 // ============================================================================================================================
 // findMarble4Trade - look for a matching marble that this user owns and return it
 // ============================================================================================================================
-func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, args []string )(m Point, err error){
+func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, args []string )([]byte, error){
 //func findPointWithOwner(stub shim.ChaincodeStubInterface, owner string )(m Point, err error){
 	var fail Point;
 	fmt.Println("- start find marble 4 trade")
@@ -507,7 +507,7 @@ func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, a
 	var pointIndex []string
 	json.Unmarshal(pointAsBytes, &pointIndex)								//un stringify it aka JSON.parse()
 
-	var pointRelated []string
+	var pointRelated []byte
 
 	for i:= range pointIndex{													//iter through all the marbles
 		//fmt.Println("looking @ marble name: " + pointIndex[i]);
@@ -524,7 +524,7 @@ func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, a
 		if strings.ToLower(res.Owner) == strings.ToLower(owner){
 			fmt.Println("found a marble: " + res.Name)
 			fmt.Println("! end find marble 4 trade")
-			pointRelated = append(pointRelated,res.Id)
+			pointRelated = append(pointRelated,pointAsBytes)
 			//return res, nil
 		}
 
