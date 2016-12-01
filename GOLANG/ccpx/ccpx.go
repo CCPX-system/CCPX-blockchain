@@ -140,10 +140,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		res, err := t.set_user(stub, args)
 		//cleanTrades(stub)													//lets make sure all open trades are still valid
 		return res, err
-	} else if function == "findPointWithOwner"{
-		res, err:= t.findPointWithOwner(stub, args)
-		return res,err
-	}/* 
+	} /* 
 
 	else if function == "open_trade" {									//create a new trade order
 		return t.open_trade(stub, args)
@@ -169,7 +166,10 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	// Handle different functions
 	if function == "read" {													//read a variable
 		return t.read(stub, args)
+	} else if function =="findPointWithOwner"{
+		return t.findPointWithOwner(stub, args)
 	}
+
 	fmt.Println("query did not find func: " + function)						//error
 
 	return nil, errors.New("Received unknown function query")
