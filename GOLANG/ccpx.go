@@ -464,17 +464,17 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 			if err != nil {
 				return nil, errors.New("Failed to get thing")
 			}
-			closersPoint := Point{}
-			json.Unmarshal(marbleAsBytes, &closersPoint)											//un stringify it aka JSON.parse()
+			closersMarble := Point{}
+			json.Unmarshal(marbleAsBytes, &closersMarble)											//un stringify it aka JSON.parse()
 			
 			//verify if marble meets trade requirements
-			if closersPoint.Color != trades.TXs[i].Want.Color || closersPoint.Size != trades.TXs[i].Want.Size {
+			if closersMarble.Color != trades.TXs[i].Want.Color || closersMarble.Size != trades.TXs[i].Want.Size {
 				msg := "marble in input does not meet trade requriements"
 				fmt.Println(msg)
 				return nil, errors.New(msg)
 			}
 			
-			marble, e := findPoint4Trade(stub, trades.TXs[i].User, args[4], size)			//find a marble that is suitable from opener
+			marble, e := findMarble4Trade(stub, trades.TXs[i].User, args[4], size)			//find a marble that is suitable from opener
 			if(e == nil){
 				fmt.Println("! no errors, proceeding")
 
@@ -495,9 +495,9 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 }
 
 // ============================================================================================================================
-// findPoint4Trade - look for a matching marble that this user owns and return it
+// findMarble4Trade - look for a matching marble that this user owns and return it
 // ============================================================================================================================
-func findPoint4Trade(stub shim.ChaincodeStubInterface, user string, color string, size int )(m Point, err error){
+func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color string, size int )(m Point, err error){
 	var fail Point;
 	fmt.Println("- start find marble 4 trade")
 	fmt.Println("looking for " + user + ", " + color + ", " + strconv.Itoa(size));
@@ -606,7 +606,7 @@ func cleanTrades(stub shim.ChaincodeStubInterface)(err error){
 		fmt.Println("# options " + strconv.Itoa(len(trades.TXs[i].Willing)))
 		for x:=0; x<len(trades.TXs[i].Willing); {														//find a marble that is suitable
 			fmt.Println("! on next option " + strconv.Itoa(i) + ":" + strconv.Itoa(x))
-			_, e := findPoint4Trade(stub, trades.TXs[i].User, trades.TXs[i].Willing[x].Color, trades.TXs[i].Willing[x].Size)
+			_, e := findMarble4Trade(stub, trades.TXs[i].User, trades.TXs[i].Willing[x].Color, trades.TXs[i].Willing[x].Size)
 			if(e != nil){
 				fmt.Println("! errors with this option, removing option")
 				didWork = true
