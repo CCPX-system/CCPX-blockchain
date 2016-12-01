@@ -53,7 +53,7 @@ type Description struct{
 
 type Transaction struct{
 	Id string `json:"txID"`					//user who created the open trade order
-	Timestamp time.Time `json:"timestamp"`			//utc timestamp of creation
+	Timestamp string `json:"timestamp"`			//utc timestamp of creation
 	TraderA string  `json:"traderA"`				//description of desired marble
 	TraderB string  `json:"traderB"`
 	PointA string  `json:"pointA"`
@@ -230,7 +230,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		var processed AllTx
 
 		for i := range trans.TXs{		
-			if Strings.Contains(trans.TXs[i].Id,seller){
+			if strings.Contains(trans.TXs[i].Id,seller){
 				processed.TXs = append(processed.TXs,trans.TXs[i]);
 			}
 		}
