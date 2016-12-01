@@ -294,12 +294,12 @@ func (t *SimpleChaincode) init_point(stub shim.ChaincodeStubInterface, args []st
 	}
 		
 	//get the marble index
-	pointAsBytes , err := stub.GetState(pointIndexStr)
+	pointAsByte , err := stub.GetState(pointIndexStr)
 	if err != nil {
 		return nil, errors.New("Failed to get marble index")
 	}
 	var pointIndex []string
-	json.Unmarshal(pointAsBytes, &pointIndex)							//un stringify it aka JSON.parse()
+	json.Unmarshal(pointAsByte, &pointIndex)							//un stringify it aka JSON.parse()
 	
 	//append
 	pointIndex = append(pointIndex, id)									//add marble name to index list
