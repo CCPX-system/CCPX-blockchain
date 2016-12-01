@@ -142,7 +142,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return res, err
 	} else if function == "findPointWithOwner"{
 		res, err:= t.findPointWithOwner(stub, args)
-		return res,err
+		return []byte(res),err
 	}/* 
 
 	else if function == "open_trade" {									//create a new trade order
