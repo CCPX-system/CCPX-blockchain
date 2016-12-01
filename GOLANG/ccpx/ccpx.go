@@ -217,7 +217,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		return valAsbytes, nil
 	} else if fcn=="findLatest"{
 		var seller = args[1]
-		var fetch = args[2]
+		//var fetch = args[2]
 		txAsbytes, err := stub.GetState(minimalTxStr)	
 		if err != nil {
 			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
