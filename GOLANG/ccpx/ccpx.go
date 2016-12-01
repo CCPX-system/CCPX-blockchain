@@ -294,7 +294,7 @@ func (t *SimpleChaincode) init_point(stub shim.ChaincodeStubInterface, args []st
 	}
 		
 	//get the marble index
-	pointAsBytes, err := stub.GetState(pointIndexStr)
+	pointAsBytes , err := stub.GetState(pointIndexStr)
 	if err != nil {
 		return nil, errors.New("Failed to get marble index")
 	}
