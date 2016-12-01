@@ -170,8 +170,6 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	// Handle different functions
 	if function == "read" {													//read a variable
 		return t.read(stub, args)
-	} else if function =="findPointWithOwner"{
-		return t.findPointWithOwner(stub, args)
 	}
 
 	fmt.Println("query did not find func: " + function)						//error
@@ -536,24 +534,16 @@ func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, a
 		
 		//check for user && color && size
 		if strings.ToLower(res.Owner) == strings.ToLower(owner){
-			fmt.Println("found a marble: " + res.Id)
-			fmt.Println("! end find marble 4 trade")
-			//pointRelated = append(pointRelated , pointAsBytes...)
-			//return res, nil
-			//build the marble json string manually
-				
 			//get the marble index
-			tmpAsByte , err := stub.GetState(tmpRelatedPoint)
+			pointAsByte , err := stub.GetState(tmpRelatedPoint) //gettmpindex
 			if err != nil {
 				return nil, errors.New("Failed to get marble index")
 			}
-			
-			json.Unmarshal(tmpAsByte, &tmpRelatedPoint)							//un stringify it aka JSON.parse()
+			json.Unmarshal(pointAsByte, &tmpRelatedPoint)							//un stringify it aka JSON.parse()
 			
 			//append
-			pointRelated = append(pointRelated, res.Id)									//add marble name to index list
-			fmt.Println("! marble index: ", pointRelated)
-			jsonAsBytes, _ := json.Marshal(pointRelated)
+			pointIndex = append(pointIndex, res.Id)									//add marble name to index list
+			jsonAsBytes, _ := json.Marshal(pointIndex)
 			err = stub.PutState(tmpRelatedPoint, jsonAsBytes)						//store name of marble
 		}
 
