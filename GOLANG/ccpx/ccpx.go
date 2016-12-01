@@ -53,7 +53,7 @@ type Description struct{
 
 type Transaction struct{
 	Id string `json:"txID"`					//user who created the open trade order
-	Timestamp Time `json:"timestamp"`			//utc timestamp of creation
+	Timestamp time `json:"timestamp"`			//utc timestamp of creation
 	TraderA string  `json:"traderA"`				//description of desired marble
 	TraderB string  `json:"traderB"`
 	PointA string  `json:"pointA"`
