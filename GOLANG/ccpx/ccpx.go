@@ -530,7 +530,7 @@ func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, a
 		if strings.ToLower(res.Owner) == strings.ToLower(owner){
 			fmt.Println("found a marble: " + res.Id)
 			fmt.Println("! end find marble 4 trade")
-			pointRelated = append(pointRelated , pointAsBytes)
+			pointRelated = append(pointRelated , pointAsBytes...)
 			//return res, nil
 		}
 
