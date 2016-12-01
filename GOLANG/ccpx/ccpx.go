@@ -380,10 +380,7 @@ func (t *SimpleChaincode) init_point(stub shim.ChaincodeStubInterface, args []st
 	return nil, nil
 }
 func (t *SimpleChaincode) init_transaction(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var err error
-	var will_size int
-	var trade_away Description
-	
+	var err error	
 	//	0        1      2     3      4      5       6
 	//["bob", "blue", "16", "red", "16"] *"blue", "35*
 
@@ -485,10 +482,6 @@ func (t *SimpleChaincode) test(stub shim.ChaincodeStubInterface, args []string) 
 	var tmps []string
 
 	json.Unmarshal(tmpAsBytes, &tmps)	
-
-	for i := range tmps{																//look for the trade
-		
-	}
 	
 	return nil, nil
 }
