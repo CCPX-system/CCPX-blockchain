@@ -493,8 +493,7 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 // ============================================================================================================================
 // findMarble4Trade - look for a matching marble that this user owns and return it
 // ============================================================================================================================
-
-func findPointWithOwner(stub shim.ChaincodeStubInterface, owner string )(m Point, err error){
+func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, owner string )(m Point, err error){
 	var fail Point;
 	fmt.Println("- start find marble 4 trade")
 	fmt.Println("looking for " + owner);
