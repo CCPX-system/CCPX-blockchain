@@ -404,7 +404,7 @@ func (t *SimpleChaincode) init_transaction(stub shim.ChaincodeStubInterface, arg
 
 	open := Transaction{}
 	open.Id = args[0]
-	open.Timestamp = Now()
+	open.Timestamp = time.Now()
 	open.TraderA = args[1]
 	open.TraderB = args[2]
 	open.PointA = args[3]
