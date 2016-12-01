@@ -182,10 +182,10 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		return nil, errors.New("Incorrect number of arguments. Expecting name of the var to query")
 	}
 
-	id = args[0]
-	valAsbytes, err := stub.GetState(id)									//get the var from chaincode state
+	name = args[0]
+	valAsbytes, err := stub.GetState(name)									//get the var from chaincode state
 	if err != nil {
-		jsonResp = "{\"Error\":\"Failed to get state for " + id + "\"}"
+		jsonResp = "{\"Error\":\"Failed to get state for " + name + "\"}"
 		return nil, errors.New(jsonResp)
 	}
 
@@ -495,7 +495,7 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 // ============================================================================================================================
 func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, args []string )([]byte, error){
 //func findPointWithOwner(stub shim.ChaincodeStubInterface, owner string )(m Point, err error){
-	var fail Point;
+	var fail byte[];
 	fmt.Println("- start find marble 4 trade")
 	fmt.Println("looking for " + args[0]);
 
@@ -533,7 +533,7 @@ func (t *SimpleChaincode) findPointWithOwner(stub shim.ChaincodeStubInterface, a
 		return pointRelated,nil
 	}
 	//fmt.Println("- end find marble 4 trade - error")
-	return pointRelated, errors.New("Did not find marble to use in this trade")
+	return fail, errors.New("Did not find marble to use in this trade")
 }
 
 // ============================================================================================================================
