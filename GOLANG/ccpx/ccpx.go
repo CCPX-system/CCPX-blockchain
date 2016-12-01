@@ -416,6 +416,7 @@ func (t *SimpleChaincode) open_trade(stub shim.ChaincodeStubInterface, args []st
 // ============================================================================================================================
 // Perform Trade - close an open trade and move ownership
 // ============================================================================================================================
+/*
 func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	
@@ -482,11 +483,12 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 	}
 	fmt.Println("- end close trade")
 	return nil, nil
-}
+}*/
 
 // ============================================================================================================================
 // findMarble4Trade - look for a matching marble that this user owns and return it
 // ============================================================================================================================
+/*
 func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color string, size int )(m Point, err error){
 	var fail Point;
 	fmt.Println("- start find marble 4 trade")
@@ -521,7 +523,7 @@ func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color strin
 	
 	fmt.Println("- end find marble 4 trade - error")
 	return fail, errors.New("Did not find marble to use in this trade")
-}
+}*/
 
 // ============================================================================================================================
 // Make Timestamp - create a timestamp in ms
@@ -533,6 +535,7 @@ func makeTimestamp() int64 {
 // ============================================================================================================================
 // Remove Open Trade - close an open trade
 // ============================================================================================================================
+/*
 func (t *SimpleChaincode) remove_trade(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	
@@ -572,11 +575,12 @@ func (t *SimpleChaincode) remove_trade(stub shim.ChaincodeStubInterface, args []
 	
 	fmt.Println("- end remove trade")
 	return nil, nil
-}
+}*/
 
 // ============================================================================================================================
 // Clean Up Open Trades - make sure open trades are still possible, remove choices that are no longer possible, remove trades that have no valid choices
 // ============================================================================================================================
+/*
 func cleanTrades(stub shim.ChaincodeStubInterface)(err error){
 	var didWork = false
 	fmt.Println("- start clean trades")
@@ -640,4 +644,4 @@ func cleanTrades(stub shim.ChaincodeStubInterface)(err error){
 
 	fmt.Println("- end clean trades")
 	return nil
-}
+}*/
