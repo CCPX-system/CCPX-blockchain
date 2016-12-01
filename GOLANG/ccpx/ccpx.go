@@ -214,14 +214,13 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 			return nil, errors.New(jsonResp)
 		}
 		return valAsbytes, nil
-	} 
-	else if fcn=="findLatest"{
-		var seller = args[1]
+	} else if fcn=="findLatest"{
+		/*var seller = args[1]
 		var fetch = args[2]
 		txAsbytes, err := stub.GetState(minimalTxStr)	
 		//some logic here
 		var trans AllTx
-		json.Unmarshal(txAsbytes, &trans)															//un stringify it aka JSON.parse()
+		json.Unmarshal(txAsbytes, &trans)*/															//un stringify it aka JSON.parse()
 		
 		/*for i := range trans.TXs{		
 			trans.TXs = append(trans.TXs[:i], trans.TXs[i+1:]...)				//remove this trade
@@ -233,14 +232,13 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 			break
 		}*/	
 
-		if err != nil {
+		/*if err != nil {
 			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
 			return nil, errors.New(jsonResp)
 		}
-		return txAsbytes, nil
-	}
-	else if fcn=="findRange"{
-		var seller = args[1]
+		return txAsbytes, nil*/
+	} else if fcn=="findRange"{
+		/*var seller = args[1]
 		var tx_from = args[2]
 		var tx_to = args[3]
 		txAsbytes, err := stub.GetState(minimalTxStr)
@@ -249,7 +247,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
 			return nil, errors.New(jsonResp)
 		}
-		return txAsbytes, nil
+		return txAsbytes, nil*/
 	}	
 	return nil, error.New(jsonResp)													//send it onward
 }
