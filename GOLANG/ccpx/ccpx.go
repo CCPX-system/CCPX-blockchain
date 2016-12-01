@@ -139,7 +139,11 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 		return res, err
 	} else if function == "open_trade" {									//create a new trade order
 		return t.open_trade(stub, args)
-	}/* else if function == "perform_trade" {									//forfill an open trade order
+	} else if function == "findPointWithOwner"{
+		return t.findPointWithOwner(stub, args)
+	}
+
+	/* else if function == "perform_trade" {									//forfill an open trade order
 		res, err := t.perform_trade(stub, args)
 		cleanTrades(stub)													//lets clean just in case
 		return res, err
@@ -178,9 +182,9 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 	}
 
 	name = args[0]
-	valAsbytes, err := stub.GetState(name)									//get the var from chaincode state
+	valAsbytes, err := stub.GetState(id)									//get the var from chaincode state
 	if err != nil {
-		jsonResp = "{\"Error\":\"Failed to get state for " + name + "\"}"
+		jsonResp = "{\"Error\":\"Failed to get state for " + id + "\"}"
 		return nil, errors.New(jsonResp)
 	}
 
@@ -346,7 +350,7 @@ func (t *SimpleChaincode) set_user(stub shim.ChaincodeStubInterface, args []stri
 // ============================================================================================================================
 // Open Trade - create an open trade for a marble you want with marbles you have 
 // ============================================================================================================================
-func (t *SimpleChaincode) open_trade(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+/*func (t *SimpleChaincode) open_trade(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	var will_size int
 	var trade_away Description
@@ -411,7 +415,7 @@ func (t *SimpleChaincode) open_trade(stub shim.ChaincodeStubInterface, args []st
 	}
 	fmt.Println("- end open trade")
 	return nil, nil
-}
+}*/
 
 // ============================================================================================================================
 // Perform Trade - close an open trade and move ownership
@@ -488,11 +492,11 @@ func (t *SimpleChaincode) perform_trade(stub shim.ChaincodeStubInterface, args [
 // ============================================================================================================================
 // findMarble4Trade - look for a matching marble that this user owns and return it
 // ============================================================================================================================
-/*
-func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color string, size int )(m Point, err error){
+
+func findPointWithOwner(stub shim.ChaincodeStubInterface, owner string )(m Point, err error){
 	var fail Point;
 	fmt.Println("- start find marble 4 trade")
-	fmt.Println("looking for " + user + ", " + color + ", " + strconv.Itoa(size));
+	fmt.Println("looking for " + owner);
 
 	//get the marble index
 	pointAsBytes, err := stub.GetState(pointIndexStr)
@@ -501,7 +505,9 @@ func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color strin
 	}
 	var pointIndex []string
 	json.Unmarshal(pointAsBytes, &pointIndex)								//un stringify it aka JSON.parse()
-	
+
+	var pointRelated []string
+
 	for i:= range pointIndex{													//iter through all the marbles
 		//fmt.Println("looking @ marble name: " + pointIndex[i]);
 
@@ -514,16 +520,20 @@ func findMarble4Trade(stub shim.ChaincodeStubInterface, user string, color strin
 		//fmt.Println("looking @ " + res.User + ", " + res.Color + ", " + strconv.Itoa(res.Size));
 		
 		//check for user && color && size
-		if strings.ToLower(res.User) == strings.ToLower(user) && strings.ToLower(res.Color) == strings.ToLower(color) && res.Size == size{
+		if strings.ToLower(res.Owner) == strings.ToLower(owner){
 			fmt.Println("found a marble: " + res.Name)
 			fmt.Println("! end find marble 4 trade")
-			return res, nil
+			pointRelated = append(pointRelated,res.Id)
+			//return res, nil
 		}
+
 	}
-	
-	fmt.Println("- end find marble 4 trade - error")
+	if pointRelated = nil {
+		return pointRelated,nil
+	}
+	//fmt.Println("- end find marble 4 trade - error")
 	return fail, errors.New("Did not find marble to use in this trade")
-}*/
+}
 
 // ============================================================================================================================
 // Make Timestamp - create a timestamp in ms
