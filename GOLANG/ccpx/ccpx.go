@@ -62,7 +62,7 @@ type Transaction struct{
 }
 
 type AllTx struct{
-	TXs []Transaction `json:"open_trades"`
+	TXs []Transaction `json:"tx"`
 }
 
 // ============================================================================================================================
@@ -216,28 +216,28 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		}
 		return valAsbytes, nil
 	} else if fcn=="findLatest"{
-		/*var seller = args[1]
+		var seller = args[1]
 		var fetch = args[2]
 		txAsbytes, err := stub.GetState(minimalTxStr)	
-		//some logic here
-		var trans AllTx
-		json.Unmarshal(txAsbytes, &trans)*/															//un stringify it aka JSON.parse()
-		
-		/*for i := range trans.TXs{		
-			trans.TXs = append(trans.TXs[:i], trans.TXs[i+1:]...)				//remove this trade
-			jsonAsBytes, _ := json.Marshal(trans)
-			err = stub.PutState(transectionStr, jsonAsBytes)												//rewrite open orders
-			if err != nil {
-				return nil, err
-			}
-			break
-		}*/	
-
-		/*if err != nil {
+		if err != nil {
 			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
 			return nil, errors.New(jsonResp)
 		}
-		return txAsbytes, nil*/
+		//some logic here
+		var trans AllTx
+		json.Unmarshal(txAsbytes, &trans)
+
+		var processed AllTx
+
+		for i := range trans.TXs{		
+			if Strings.Contains(trans.TXs[i].Id,seller){
+				processed.TXs = append(processed.TXs,trans.TXs[i]);
+			}
+		}
+		jsonAsBytes, _ := json.Marshal(processed)
+
+		return jsonAsBytes, nil
+
 	} else if fcn=="findRange"{
 		/*var seller = args[1]
 		var tx_from = args[2]
@@ -402,7 +402,7 @@ func (t *SimpleChaincode) init_transaction(stub shim.ChaincodeStubInterface, arg
 
 	open := Transaction{}
 	open.Id = args[0]
-	open.Timestamp = time.Now()
+	open.Timestamp = time.Now().String()
 	open.TraderA = args[1]
 	open.TraderB = args[2]
 	open.PointA = args[3]
