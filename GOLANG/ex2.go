@@ -1,20 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @vasopikof
- Watch 33
-  Star 118
- Fork 1,056 IBM-Blockchain/learn-chaincode
- Code  Issues 4  Pull requests 0  Projects 0  Wiki  Pulse  Graphs
-Branch: master Find file Copy pathlearn-chaincode/finished/chaincode_finished.go
-7a1f457  on Oct 20
-@masterDev1985 masterDev1985 Added support for v0.6
-4 contributors @masterDev1985 @dshuffma-ibm @mgarciap @christo4ferris
-RawBlameHistory     
-116 lines (91 sloc)  3.19 KB
 /*
 Copyright IBM Corp 2016 All Rights Reserved.
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -127,5 +110,3 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 
 	return valAsbytes, nil
 }
-Contact GitHub API Training Shop Blog About
-© 2016 GitHub, Inc. Terms Privacy Security Status Help
