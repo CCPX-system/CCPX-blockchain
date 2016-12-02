@@ -16,7 +16,7 @@
     var options =   {
         network:{
             peers:   [{
-                "api_host": "148.100.5.138",
+                "api_host": "172.17.0.2",
                 "api_port": 7050,
                 "id":"CCXP_peer"
                 //"id": "xxxxxx-xxxx-xxx-xxx-xxxxxxxxxxxx_vpx"
