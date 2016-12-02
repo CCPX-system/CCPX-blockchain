@@ -217,7 +217,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		return valAsbytes, nil
 	} else if fcn=="findLatest"{
 		var seller = args[1]
-		//var fetch = args[2]
+		var fetch = args[2]
 		txAsbytes, err := stub.GetState(minimalTxStr)	
 		if err != nil {
 			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
@@ -234,21 +234,41 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 				processed.TXs = append(processed.TXs,trans.TXs[i]);
 			}
 		}
-		jsonAsBytes, _ := json.Marshal(processed)
+		var fulLen = len(processed.TXs)
+		if fetch < fulLen {
+			processed.Tx = processed.Tx[fulLen-fetch:]
+			jsonAsBytes, _ := json.Marshal(processed)
+		}else{
+			jsonAsBytes, _ := json.Marshal(processed)
+		}
+		
 
 		return jsonAsBytes, nil
 
 	} else if fcn=="findRange"{
-		/*var seller = args[1]
-		var tx_from = args[2]
-		var tx_to = args[3]
-		txAsbytes, err := stub.GetState(minimalTxStr)
-		//some logic here
+		var seller = args[1]
+		var from = args[2]
+		var to = args[3]
+
+		txAsbytes, err := stub.GetState(minimalTxStr)	
 		if err != nil {
 			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
 			return nil, errors.New(jsonResp)
 		}
-		return txAsbytes, nil*/
+		//some logic here
+		var trans AllTx
+		json.Unmarshal(txAsbytes, &trans)
+
+		var processed AllTx
+
+		for i := range trans.TXs{		
+			if strings.Contains(trans.TXs[i].Id,seller) && trans.TXs[i].Timestamp >= from && trans.TXs[i].Timestamp <=to{
+				processed.TXs = append(processed.TXs,trans.TXs[i]);
+			}
+		}
+		jsonAsBytes, _ := json.Marshal(processed)
+		
+		return jsonAsBytes, nil
 	}	
 	return nil, err													//send it onward
 }
@@ -396,17 +416,15 @@ func (t *SimpleChaincode) init_transaction(stub shim.ChaincodeStubInterface, arg
 	Related []Point `json:"related"`		//array of marbles willing to trade away
 }
 	*/
-	if len(args) < 3 {
-		return nil, errors.New("Incorrect number of arguments. Expecting like 4?")
-	}
+
 
 	open := Transaction{}
 	open.Id = args[0]
-	open.Timestamp = time.Now().String()
 	open.TraderA = args[1]
 	open.TraderB = args[2]
 	open.PointA = args[3]
 	open.PointB = args[4]
+	open.Timestamp = args[5]
 	
 	fmt.Println("- start open trade")
 	jsonAsBytes, _ := json.Marshal(open)
