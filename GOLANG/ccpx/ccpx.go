@@ -273,7 +273,6 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 			}
 			if (strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller)) && ( from <= tx_time && tx_time <=to){
 				processed.TXs = append(processed.TXs,trans.TXs[i])
-				return nil, err	
 			}
 		}
 		jsonAsBytes, _ := json.Marshal(processed)
