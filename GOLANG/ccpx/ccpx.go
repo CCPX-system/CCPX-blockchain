@@ -267,7 +267,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		var processed AllTx
 
 		for i := range trans.TXs{		
-			tx_time,err := strconv.Atoi(trans.TXs[i].Timestamp)
+			tx_time,err := strconv.Atoi(trans.TXs[i].EX_TIME)
 			if err != nil {
 				return nil, err
 			}
