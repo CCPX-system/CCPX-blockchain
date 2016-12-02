@@ -217,7 +217,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		return valAsbytes, nil
 	} else if fcn=="findLatest"{
 		var seller = args[1]
-		var fetch = args[2]
+		var fetch = strconv.Itoa(args[2])
 		txAsbytes, err := stub.GetState(minimalTxStr)	
 		if err != nil {
 			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
@@ -236,19 +236,22 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		}
 		var fulLen = len(processed.TXs)
 		if fetch < fulLen {
-			processed.Tx = processed.Tx[fulLen-fetch:]
+			processed.Txs = processed.Txs[fulLen-fetch:]
 			jsonAsBytes, _ := json.Marshal(processed)
+
+			return jsonAsBytes, nil
 		}else{
 			jsonAsBytes, _ := json.Marshal(processed)
+			return jsonAsBytes, nil
 		}
 		
 
-		return jsonAsBytes, nil
+		
 
 	} else if fcn=="findRange"{
 		var seller = args[1]
-		var from = args[2]
-		var to = args[3]
+		var from = strconv.Itoa(args[2])
+		var to = strconv.Itoa(args[3])
 
 		txAsbytes, err := stub.GetState(minimalTxStr)	
 		if err != nil {
@@ -262,7 +265,8 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		var processed AllTx
 
 		for i := range trans.TXs{		
-			if strings.Contains(trans.TXs[i].Id,seller) && trans.TXs[i].Timestamp >= from && trans.TXs[i].Timestamp <=to{
+			var tx_time = strconv.Itoa(trans.TXs[i].Timestamp)
+			if strings.Contains(trans.TXs[i].Id,seller) && tx_time >= from && tx_time <=to{
 				processed.TXs = append(processed.TXs,trans.TXs[i]);
 			}
 		}
