@@ -53,11 +53,13 @@ type Description struct{
 
 type Transaction struct{
 	Id string `json:"txID"`					//user who created the open trade order
-	Timestamp string `json:"timestamp"`			//utc timestamp of creation
-	TraderA string  `json:"traderA"`				//description of desired marble
-	TraderB string  `json:"traderB"`
-	PointA string  `json:"pointA"`
-	PointB string  `json:"pointB"`
+	Timestamp string `json:"EX_TIME"`			//utc timestamp of creation
+	TraderA string  `json:"USER_A_ID"`				//description of desired marble
+	TraderB string  `json:"USER_B_ID"`
+	SellerA string  `json:"SELLER_A_ID"`				//description of desired marble
+	SellerB string  `json:"SELLER_B_ID"`
+	PointA string  `json:"POINT_A"`
+	PointB string  `json:"POINT_B"`
 	Related []Point `json:"related"`		//array of marbles willing to trade away
 }
 
@@ -230,7 +232,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		var processed AllTx
 
 		for i := range trans.TXs{		
-			if strings.Contains(trans.TXs[i].Id,seller){
+			if strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller){
 				processed.TXs = append(processed.TXs,trans.TXs[i]);
 			}
 		}
@@ -269,7 +271,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 			if err != nil {
 				return nil, err
 			}
-			if strings.Contains(trans.TXs[i].Id,seller) && tx_time >= from && tx_time <=to{
+			if (strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller)) && tx_time >= from && tx_time <=to{
 				processed.TXs = append(processed.TXs,trans.TXs[i]);
 			}
 		}
@@ -413,14 +415,15 @@ func (t *SimpleChaincode) init_transaction(stub shim.ChaincodeStubInterface, arg
 	//["bob", "blue", "16", "red", "16"] *"blue", "35*
 
 	/*
-	type Transaction struct{
 	Id string `json:"txID"`					//user who created the open trade order
-	Timestamp int64 `json:"timestamp"`			//utc timestamp of creation
-	TraderA string  `json:"traderA"`				//description of desired marble
-	TraderB string  `json:"traderB"`
-	PointA string  `json:"pointA"`
-	PointB string  `json:"pointB"`
-	Related []Point `json:"related"`		//array of marbles willing to trade away
+	Timestamp string `json:"EX_TIME"`			//utc timestamp of creation
+	TraderA string  `json:"USER_A_ID"`				//description of desired marble
+	TraderB string  `json:"USER_B_ID"`
+	SellerA string  `json:"SELLER_A_ID"`				//description of desired marble
+	SellerB string  `json:"SELLER_B_ID"`
+	PointA string  `json:"POINT_A"`
+	PointB string  `json:"POINT_B"`
+	Related []Point `json:"related"`
 }
 	*/
 
@@ -429,9 +432,11 @@ func (t *SimpleChaincode) init_transaction(stub shim.ChaincodeStubInterface, arg
 	open.Id = args[0]
 	open.TraderA = args[1]
 	open.TraderB = args[2]
-	open.PointA = args[3]
-	open.PointB = args[4]
-	open.Timestamp = args[5]
+	open.SellerA = args[3]
+	open.SellerB = args[4]
+	open.PointA = args[5]
+	open.PointB = args[6]
+	open.Timestamp = args[7]
 	
 	fmt.Println("- start open trade")
 	jsonAsBytes, _ := json.Marshal(open)
