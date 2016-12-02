@@ -265,7 +265,10 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		var processed AllTx
 
 		for i := range trans.TXs{		
-			tx_time := strconv.Atoi(trans.TXs[i].Timestamp)
+			tx_time,err := strconv.Atoi(trans.TXs[i].Timestamp)
+			if err != nil {
+				return nil, err
+			}
 			if strings.Contains(trans.TXs[i].Id,seller) && tx_time >= from && tx_time <=to{
 				processed.TXs = append(processed.TXs,trans.TXs[i]);
 			}
