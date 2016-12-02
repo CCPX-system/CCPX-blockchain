@@ -256,7 +256,10 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		to,err := strconv.Atoi(args[3])
 
 		txAsbytes, err := stub.GetState(minimalTxStr)	
-
+		if err != nil {
+			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
+			return nil, errors.New(jsonResp)
+		}
 		//some logic here
 		var trans AllTx
 		json.Unmarshal(txAsbytes, &trans)
