@@ -233,7 +233,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 
 		for i := range trans.TXs{		
 			if strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller){
-				processed.TXs = append(processed.TXs,trans.TXs[i]);
+				processed.TXs = append(processed.TXs,trans.TXs[i])
 			}
 		}
 		var fulLen = len(processed.TXs)
@@ -256,9 +256,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		to,err := strconv.Atoi(args[3])
 
 		txAsbytes, err := stub.GetState(minimalTxStr)	
-		if err == nil {
-			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
-		}
+
 		//some logic here
 		var trans AllTx
 		json.Unmarshal(txAsbytes, &trans)
@@ -271,7 +269,8 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 				
 			}
 			if (strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller)) && ( from <= tx_time && tx_time <=to){
-				processed.TXs = append(processed.TXs,trans.TXs[i]);
+				processed.TXs = append(processed.TXs,trans.TXs[i])
+				return nil, err	
 			}
 		}
 		jsonAsBytes, _ := json.Marshal(processed)
