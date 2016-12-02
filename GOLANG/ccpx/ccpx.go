@@ -256,9 +256,8 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		to,err := strconv.Atoi(args[3])
 
 		txAsbytes, err := stub.GetState(minimalTxStr)	
-		if err != nil {
+		if err == nil {
 			jsonResp = "{\"Error\":\"Failed to get state for " + args[1] + "\"}"
-			return nil, errors.New(jsonResp)
 		}
 		//some logic here
 		var trans AllTx
@@ -267,11 +266,11 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		var processed AllTx
 
 		for i := range trans.TXs{		
-			tx_time,err := strconv.Atoi(trans.TXs[i].EX_TIME)
+			tx_time,err := strconv.Atoi(trans.TXs[i].Timestamp)
 			if err != nil {
 				return nil, err
 			}
-			if (strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller)) && (tx_time >= from && tx_time <=to){
+			if (strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller)) && ( from <= tx_time && tx_time <=to){
 				processed.TXs = append(processed.TXs,trans.TXs[i]);
 			}
 		}
