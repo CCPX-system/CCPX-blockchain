@@ -271,7 +271,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 			if err != nil {
 				return nil, err
 			}
-			if (strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller)) && tx_time >= from && tx_time <=to{
+			if (strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller)) && (tx_time >= from && tx_time <=to){
 				processed.TXs = append(processed.TXs,trans.TXs[i]);
 			}
 		}
