@@ -236,7 +236,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		}
 		var fulLen = len(processed.TXs)
 		if fetch < fulLen {
-			processed.Txs = processed.Txs[fulLen-fetch:]
+			processed.TXs = processed.TXs[fulLen-fetch:]
 			jsonAsBytes, _ := json.Marshal(processed)
 
 			return jsonAsBytes, nil
