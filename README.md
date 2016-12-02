@@ -1,9 +1,6 @@
 # CCPX-blockchain
 Node.js application which provide functional API to CCPX-application to Hyperledger's blockchain network
 
-#note
-don't forget to change ip address for your hyperledger network (keep RESTFUL api port [7050])
-
 #step
 1. Create Hyperledger network (at least 1 peer, 1 membersvrc)
 2. Build go code on peer (go to .go dir and "go build .")
