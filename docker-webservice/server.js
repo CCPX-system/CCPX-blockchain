@@ -49,7 +49,7 @@
         //app2.setup(ibc, cc);
 
     // Step 4 ==================================
-        if(cc.details.deployed_name === "ccpx"){                //decide if I need to deploy or not
+        if(false){//cc.details.deployed_name === "ccpx"){                //decide if I need to deploy or not
             g_cc = cc;
             cc.deploy('init', ['99'], {delay_ms: 30000}, function(e){                       //delay_ms is milliseconds to wait after deploy for conatiner to start, 50sec recommended
                 console.log("success deployed");
