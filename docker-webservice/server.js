@@ -35,7 +35,8 @@
             zip_url: 'https://github.com/CCPX-system/CCPX-blockchain/raw/master/GOLANG/ccpx/ccpx.zip',
             unzip_dir: '/',
             git_url: 'https://github.com/CCPX-system/CCPX-blockchain/GOLANG/ccpx'
-            ,deployed_name:'0baf08a4ff8901d3b568121d631d117c83c0fa1f46ed3f9b4a4487802a08b2bf7e1994f3d5a59faa3adf736ce566f3a3e2558d168d805e890ff3de54f5bb4559'
+            //comment deployed_name for first deployment to let this sdk download zip file (.go) to lib
+            //,deployed_name:'0baf08a4ff8901d3b568121d631d117c83c0fa1f46ed3f9b4a4487802a08b2bf7e1994f3d5a59faa3adf736ce566f3a3e2558d168d805e890ff3de54f5bb4559'
         }
     };
 
@@ -67,8 +68,8 @@
     function cb_deployed(err){
         console.log('sdk has deployed code and waited');
         //chaincode.query.read(['a']);
-        http.listen(3000, function(){
-          console.log('listening on *:3000');
+        http.listen(8080, function(){
+          console.log('listening on *:8080');
           
         });
     }
