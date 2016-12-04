@@ -125,6 +125,7 @@
         var to      = Date.parse(t)+(new Date(Date.parse(t)).getTimezoneOffset()*60*1000);
 
         console.log('got getToExPo request from:'+from+"==to:"+to);
+        console.log("diff="+ new Date(Date.parse(f)).getTimezoneOffset()*60*1000);
         g_cc.query.read(['findRange',seller,from.toString(),to.toString()],function(err,resp){
             if(!err){
                 var pre = JSON.parse(resp);
