@@ -121,8 +121,10 @@
         var f = req.body.START_TIME ;
         var t = req.body.END_TIME ;
         
-        var from = Date.parse(f) -28800000;
-        var to = Date.parse(t) -28800000;
+        var from    = Date.parse(f)+(new Date(Date.parse(f)).getTimezoneOffset()*60*1000);
+        var to      = Date.parse(t)+(new Date(Date.parse(t)).getTimezoneOffset()*60*1000);
+
+        var start_dif_ms = start_local.getTimezoneOffset()*60*1000
 
         console.log('got getToExPo request from:'+from+"==to:"+to);
         g_cc.query.read(['findRange',seller,from.toString(),to.toString()],function(err,resp){
@@ -166,7 +168,7 @@
 
 
         var curret_date = new Date();
-        var dateStr = curret_date.getFullYear()+''+curret_date.getMonth()+''+curret_date.getDate();
+        var dateStr = curret_date.getFullYear()+''+(curret_date.getMonth()+1)+''+curret_date.getDate();
         var tmpID = sellerA+'-'+sellerB+'-'+dateStr+'-'+id;
         console.log('got responseStore request');
         g_cc.invoke.init_transaction([tmpID,userA,userB,sellerA,sellerB,pointA,pointB,''+Date.parse(new Date())],function(err,resp){
