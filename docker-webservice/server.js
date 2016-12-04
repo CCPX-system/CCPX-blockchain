@@ -35,7 +35,7 @@
             zip_url: 'https://github.com/CCPX-system/CCPX-blockchain/raw/master/GOLANG/ccpx/ccpx.zip',
             unzip_dir: '/',
             git_url: 'https://github.com/CCPX-system/CCPX-blockchain/GOLANG/ccpx'
-            //,deployed_name:'0baf08a4ff8901d3b568121d631d117c83c0fa1f46ed3f9b4a4487802a08b2bf7e1994f3d5a59faa3adf736ce566f3a3e2558d168d805e890ff3de54f5bb4559'
+            //,deployed_name:'20e264ee000c4454c789770be7755325ae50ff0827bc1d31ae7a4c4b8b4499ac033fed464392929c77aa8bf82c85689bbc030f7659aa879ca4d2c72c47c54a13'
         }
     };
 
@@ -187,14 +187,20 @@
     app.post('/testPostDate', function(req, res){
         var dd = req.body.day;
 
-        //var start_ms = Date.parse('2016/12/02 11:25:36');
-        var start_local = new Date(Date.parse(dd));
+        var start_ms = Date.parse(dd);
+        var start_local = new Date(start_ms);
         var start_dif_ms = start_local.getTimezoneOffset()*60*1000;
-        var start_UTC = new Date(dd+start_dif_ms);
+        var start_UTC = new Date(start_ms+start_dif_ms);
+
+        var d = new Date().toString();
 
         res.json({
-            "server":new Date().toString(),
-            "client":start_UTC.toString()
+            "server"    : d.toString(),
+            "server_ms" : Date.parse(d),
+            "client"    : start_local.toString(),
+            "client_ms" : start_ms,
+            "client_adjust": start_UTC,
+            "client_adjust_ms": start_ms+start_dif_ms
         });
     });
     app.get('/query_point', function(req, res){
