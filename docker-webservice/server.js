@@ -84,6 +84,7 @@
     app.post('/getLatExRec', function(req, res){
         var seller = req.body.SELLER_ID;
         var num = req.body.RECORD_NUM;
+        var diff = -28800000;
         console.log('got getLatExRec request');
         g_cc.query.read(['findLatest',seller,num],function(err,resp){
             if(!err){
@@ -100,7 +101,7 @@
                 for(var i =0 ;i <len;i++){
                     var ms = pre.tx[i].EX_TIME;
                     console.log(ms);
-                    var m = new Date(parseInt(ms));
+                    var m = new Date(parseInt(ms)-diff);
                     console.log(m);
                     pre.tx[i].EX_TIME = m.getFullYear()+'/'+padZ((m.getMonth()+1))+'/'+padZ(m.getDate())+" "+padZ(m.getHours())+":"+padZ(m.getMinutes())+":"+padZ(m.getSeconds());
                 }
@@ -121,11 +122,12 @@
         var f = req.body.START_TIME ;
         var t = req.body.END_TIME ;
         
-        var from    = Date.parse(f)+(new Date(Date.parse(f)).getTimezoneOffset()*60*1000);
-        var to      = Date.parse(t)+(new Date(Date.parse(t)).getTimezoneOffset()*60*1000);
+        var diff = -28800000;
+        var from    = Date.parse(f)+(diff);
+        var to      = Date.parse(t)+(diff);
 
         console.log('got getToExPo request from:'+from+"==to:"+to);
-        console.log("diff="+ new Date(Date.parse(f)).getTimezoneOffset()*60*1000);
+        console.log("diff="+ diff);
         g_cc.query.read(['findRange',seller,from.toString(),to.toString()],function(err,resp){
             if(!err){
                 var pre = JSON.parse(resp);
@@ -140,7 +142,7 @@
                 for(var i =0 ;i <len;i++){
                     var ms = pre.tx[i].EX_TIME;
                     console.log(ms);
-                    var m = new Date(parseInt(ms));
+                    var m = new Date(parseInt(ms)-diff);
                     console.log(m);
                     pre.tx[i].EX_TIME = m.getFullYear()+'/'+padZ((m.getMonth()+1))+'/'+padZ(m.getDate())+" "+padZ(m.getHours())+":"+padZ(m.getMinutes())+":"+padZ(m.getSeconds());
                 }
@@ -187,10 +189,10 @@
 
     app.post('/testPostDate', function(req, res){
         var dd = req.body.day;
-
+        var diff = -28800000;
         var start_ms = Date.parse(dd);
         var start_local = new Date(start_ms);
-        var start_dif_ms = start_local.getTimezoneOffset()*60*1000;
+        var start_dif_ms = diff;
         var start_UTC = new Date(start_ms+start_dif_ms);
 
         var d = new Date().toString();
@@ -200,7 +202,7 @@
             "server_ms" : Date.parse(d),
             "client"    : start_local.toString(),
             "client_ms" : start_ms,
-            "client_adjust": start_UTC,
+            "client_adjust": start_UTC.toString() +"=-"+diff,
             "client_adjust_ms": start_ms+start_dif_ms
         });
     });
