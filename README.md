@@ -7,9 +7,9 @@ This project based on LinuxOne server (s390x)
 2. This bootstrap made for s390x. if you want to try with else, just focus on NODE.js dockerfile and change repo for node.
 
 #Howto?
-1) sudo -i
-2) . start.sh
-3) watching miracle ! 
+1. sudo -i  #if your system is not user-managed 
+2. start.sh #run this script to bootstrap everything (Hyperledger network and node.js webserver)
+3. watching miracle ! 
 
 #What will happen back there ?
 1. Create Hyperledger network (at least 1 peer, 1 membersvrc)
