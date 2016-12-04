@@ -124,8 +124,6 @@
         var from    = Date.parse(f)+(new Date(Date.parse(f)).getTimezoneOffset()*60*1000);
         var to      = Date.parse(t)+(new Date(Date.parse(t)).getTimezoneOffset()*60*1000);
 
-        var start_dif_ms = start_local.getTimezoneOffset()*60*1000
-
         console.log('got getToExPo request from:'+from+"==to:"+to);
         g_cc.query.read(['findRange',seller,from.toString(),to.toString()],function(err,resp){
             if(!err){
