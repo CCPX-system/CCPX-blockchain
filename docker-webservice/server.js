@@ -187,7 +187,7 @@
         //var start_ms = Date.parse('2016/12/02 11:25:36');
         var start_local = new Date(dd);
         var start_dif_ms = start_local.getTimezoneOffset()*60*1000;
-        var start_UTC = new Date(start_ms-start_dif_ms);
+        var start_UTC = new Date(dd-start_dif_ms);
 
         res.json({
             "server":new Date().toString(),
