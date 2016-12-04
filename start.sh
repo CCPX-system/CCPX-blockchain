@@ -13,4 +13,5 @@ docker build -t ccpx/ws .
 
 docker network connect bridge dockerhyperledger_vp_1
 
-docker run --name ccpx_node --net=bridge -p 9999:8080 -d ccpx/ws
+docker run --name ccpx_node --net=bridge -p 9999:8080 ccpx/ws
+#docker run --name ccpx_node --net=bridge -p 9999:8080 ccpx/ws
