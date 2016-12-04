@@ -118,9 +118,12 @@
 
     app.post('/getToExPo', function(req, res){
         var seller = req.body.SELLER_ID;
-        var from = req.body.START_TIME -28800000;
-        var to = req.body.END_TIME -28800000;
+        var from = req.body.START_TIME ;
+        var to = req.body.END_TIME ;
         
+        from = from -28800000;
+        to = to -28800000;
+
         console.log('got getToExPo request from:'+from+"==to:"+to);
         g_cc.query.read(['findRange',seller,Date.parse(from).toString(),Date.parse(to).toString()],function(err,resp){
             if(!err){
