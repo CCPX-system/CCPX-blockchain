@@ -218,7 +218,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		}
 		return valAsbytes, nil
 	} else if fcn=="findLatest"{
-		var seller = args[1]
+		seller,err := strconv.Atoi(args[1])
 		fetch,err := strconv.Atoi(args[2])
 		txAsbytes, err := stub.GetState(minimalTxStr)	
 		if err != nil {
@@ -232,7 +232,10 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		var processed AllTx
 
 		for i := range trans.TXs{		
-			if strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller){
+			seller_rec_A,err := strconv.Atoi(trans.TXs[i].SellerA)
+			seller_rec_B,err := strconv.Atoi(trans.TXs[i].SellerB)
+			if err == nil {}
+			if (seller_rec_A != seller) || (seller_rec_A != seller){
 				processed.TXs = append(processed.TXs,trans.TXs[i])
 			}
 		}
@@ -251,7 +254,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		
 
 	} else if fcn=="findRange"{
-		var seller = args[1]
+		seller,err := strconv.Atoi(args[1])
 		from,err := strconv.Atoi(args[2])
 		to,err := strconv.Atoi(args[3])
 
@@ -268,10 +271,11 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 
 		for i := range trans.TXs{		
 			tx_time,err := strconv.Atoi(trans.TXs[i].Timestamp)
-			if err == nil {
-				
-			}
-			if (strings.Contains(trans.TXs[i].SellerA,seller) || strings.Contains(trans.TXs[i].SellerB,seller)) && ( from <= tx_time && tx_time <=to){
+			seller_rec_A,err := strconv.Atoi(trans.TXs[i].SellerA)
+			seller_rec_B,err := strconv.Atoi(trans.TXs[i].SellerB)
+
+			if err == nil {}
+			if ((seller_rec_A != seller) || (seller_rec_A != seller)) && ( from <= tx_time && tx_time <=to){
 				processed.TXs = append(processed.TXs,trans.TXs[i])
 			}
 		}
