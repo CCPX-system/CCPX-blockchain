@@ -35,7 +35,7 @@
             zip_url: 'https://github.com/CCPX-system/CCPX-blockchain/raw/master/GOLANG/ccpx/ccpx.zip',
             unzip_dir: '/',
             git_url: 'https://github.com/CCPX-system/CCPX-blockchain/GOLANG/ccpx'
-            //,deployed_name:'0baf08a4ff8901d3b568121d631d117c83c0fa1f46ed3f9b4a4487802a08b2bf7e1994f3d5a59faa3adf736ce566f3a3e2558d168d805e890ff3de54f5bb4559'
+            ,deployed_name:'0baf08a4ff8901d3b568121d631d117c83c0fa1f46ed3f9b4a4487802a08b2bf7e1994f3d5a59faa3adf736ce566f3a3e2558d168d805e890ff3de54f5bb4559'
         }
     };
 
@@ -183,9 +183,15 @@
 
     app.post('/testPostDate', function(req, res){
         var dd = req.body.day;
+
+        //var start_ms = Date.parse('2016/12/02 11:25:36');
+        var start_local = new Date(dd);
+        var start_dif_ms = start_local.getTimezoneOffset()*60*1000;
+        var start_UTC = new Date(start_ms-start_dif_ms);
+
         res.json({
             "server":new Date().toString(),
-            "client":dd
+            "client":start_UTC.toString()
         });
     });
     app.get('/query_point', function(req, res){
