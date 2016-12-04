@@ -235,7 +235,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 			seller_rec_A,err := strconv.Atoi(trans.TXs[i].SellerA)
 			seller_rec_B,err := strconv.Atoi(trans.TXs[i].SellerB)
 			if err == nil {}
-			if (seller_rec_A != seller) || (seller_rec_A != seller){
+			if (seller_rec_A != seller) || (seller_rec_B != seller){
 				processed.TXs = append(processed.TXs,trans.TXs[i])
 			}
 		}
@@ -275,7 +275,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 			seller_rec_B,err := strconv.Atoi(trans.TXs[i].SellerB)
 
 			if err == nil {}
-			if ((seller_rec_A != seller) || (seller_rec_A != seller)) && ( from <= tx_time && tx_time <=to){
+			if ((seller_rec_A != seller) || (seller_rec_B != seller)) && ( from <= tx_time && tx_time <=to){
 				processed.TXs = append(processed.TXs,trans.TXs[i])
 			}
 		}
