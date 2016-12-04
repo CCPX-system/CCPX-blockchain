@@ -125,7 +125,7 @@
         var to = Date.parse(t) -28800000;
 
         console.log('got getToExPo request from:'+from+"==to:"+to);
-        g_cc.query.read(['findRange',seller,from,to],function(err,resp){
+        g_cc.query.read(['findRange',seller,from.toString(),to.toString()],function(err,resp){
             if(!err){
                 var pre = JSON.parse(resp);
                 if (pre.tx == null){
