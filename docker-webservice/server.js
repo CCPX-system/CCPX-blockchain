@@ -35,7 +35,7 @@
             zip_url: 'https://github.com/CCPX-system/CCPX-blockchain/raw/master/GOLANG/ccpx/ccpx.zip',
             unzip_dir: '/',
             git_url: 'https://github.com/CCPX-system/CCPX-blockchain/GOLANG/ccpx'
-            //,deployed_name:'20e264ee000c4454c789770be7755325ae50ff0827bc1d31ae7a4c4b8b4499ac033fed464392929c77aa8bf82c85689bbc030f7659aa879ca4d2c72c47c54a13'
+            //,deployed_name:'5413191f18c5cab35639e42515edbb47c12c2ce7306d107b7cc6e23b591a5a4c123c261fd0da1fdc2214047e0d168b4087b86b3c86d4d62a219b46b9a1abc48e'
         }
     };
 
