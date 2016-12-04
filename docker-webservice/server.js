@@ -118,8 +118,8 @@
 
     app.post('/getToExPo', function(req, res){
         var seller = req.body.SELLER_ID;
-        var from = req.body.START_TIME;
-        var to = req.body.END_TIME;
+        var from = req.body.START_TIME -28800000;
+        var to = req.body.END_TIME -28800000;
         
         console.log('got getToExPo request from:'+from+"==to:"+to);
         g_cc.query.read(['findRange',seller,Date.parse(from).toString(),Date.parse(to).toString()],function(err,resp){
@@ -185,9 +185,9 @@
         var dd = req.body.day;
 
         //var start_ms = Date.parse('2016/12/02 11:25:36');
-        var start_local = new Date(dd);
+        var start_local = new Date(Date.parse(dd));
         var start_dif_ms = start_local.getTimezoneOffset()*60*1000;
-        var start_UTC = new Date(dd-start_dif_ms);
+        var start_UTC = new Date(dd+start_dif_ms);
 
         res.json({
             "server":new Date().toString(),
