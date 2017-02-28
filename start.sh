@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+ccpx_path="$PWD"
+
 . zSystemLeanDockerBuild.sh
+
+cd "$ccpx_path"
 
 docker stop $(docker ps -a -q)
 docker rm -f $(docker ps -a -q)
