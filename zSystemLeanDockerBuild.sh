@@ -151,6 +151,12 @@ EOF
     systemctl start docker.service
   fi
 
+  cd /tmp
+  curl -s "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+  python get-pip.py > /dev/null 2>&1
+  
+  pip install docker-compose
+  
   echo -e "*** DONE ***\n"
 }
 
@@ -398,7 +404,7 @@ fi
 #if ! test -d /opt/go; then
 #  install_golang $OS_FLAVOR
 #else
-  export GOROOT=/opt/go
+#  export GOROOT=/opt/go
 #fi
 
 #build_hyperledger_fabric $OS_FLAVOR
@@ -406,11 +412,11 @@ fi
 #build_hyperledger_fabric-sdk-node $OS_FLAVOR
 
 
-if ! behave --version > /dev/null 2>&1; then
-  setup_behave
-fi
-pip install docker-compose
+#if ! behave --version > /dev/null 2>&1; then
+#  setup_behave
+#fi
+
 post_build
 
-echo -e "\n\nThe Hyperledger Fabric and its supporting components have been successfully installed.\n"
+echo -e "\n\nDocker and its supporting components have been successfully installed.\n"
 exit 0
