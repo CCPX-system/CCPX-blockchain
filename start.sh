@@ -2,6 +2,43 @@
 
 ccpx_path="$PWD"
 
+# Install prerequisite packages for an RHEL Hyperledger build
+prereq_rhel() {
+  echo -e "\nInstalling RHEL prerequisite packages\n"
+  yum -y -q install git gcc gcc-c++ wget tar python-setuptools python-devel device-mapper libtool-ltdl-devel libffi-devel openssl-devel
+  if [ $? != 0 ]; then
+    echo -e "\nERROR: Unable to install pre-requisite packages.\n"
+    exit 1
+  fi
+  if [ ! -f /usr/bin/s390x-linux-gnu-gcc ]; then
+    ln -s /usr/bin/s390x-redhat-linux-gcc /usr/bin/s390x-linux-gnu-gcc
+  fi
+}
+
+# Install prerequisite packages for an SLES Hyperledger build
+prereq_sles() {
+  echo -e "\nInstalling SLES prerequisite packages\n"
+  zypper --non-interactive in git-core gcc make gcc-c++ patterns-sles-apparmor  python-setuptools python-devel libtool libffi48-devel libopenssl-devel
+  if [ $? != 0 ]; then
+    echo -e "\nERROR: Unable to install pre-requisite packages.\n"
+    exit 1
+  fi
+  if [ ! -f /usr/bin/s390x-linux-gnu-gcc ]; then
+    ln -s /usr/bin/gcc /usr/bin/s390x-linux-gnu-gcc
+  fi
+}
+
+# Install prerequisite packages for an Unbuntu Hyperledger build
+prereq_ubuntu() {
+  echo -e "\nInstalling Ubuntu prerequisite packages\n"
+  apt-get update
+  apt-get -y install build-essential git debootstrap python-setuptools python-dev alien libtool libffi-dev libssl-dev
+  if [ $? != 0 ]; then
+    echo -e "\nERROR: Unable to install pre-requisite packages.\n"
+    exit 1
+  fi
+}
+
 # Determine flavor of Linux OS
 get_linux_flavor() {
   OS_FLAVOR=`cat /etc/os-release | grep ^NAME | sed -r 's/.*"(.*)"/\1/'`
@@ -90,6 +127,11 @@ EOF
   echo -e "*** DONE ***\n"
 }
 
+# Determine Linux distribution
+get_linux_flavor
+
+# Install pre-reqs for detected Linux OS Distribution
+prereq_$OS_FLAVOR
 
 if ! docker images > /dev/null 2>&1; then
   install_docker $OS_FLAVOR
